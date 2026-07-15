@@ -3,7 +3,7 @@
 # come from Ollama; two wildcards mean you rarely have to touch this file again.
 #
 # Start:  set -a; . ./.env; set +a; \
-#         uv run python litellm/proxy/proxy_cli.py --config local_hub_config.yaml --use_v2_migration_resolver
+#         uv run python litellm/proxy/proxy_cli.py --config local_hub_config.yaml --host 127.0.0.1 --use_v2_migration_resolver
 
 include:
   - litellm/proxy/dev_config.yaml   # cloud models (anthropic/openai/bedrock/vertex/azure) + general_settings + litellm_settings
