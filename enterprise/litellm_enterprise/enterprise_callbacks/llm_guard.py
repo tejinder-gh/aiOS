@@ -46,17 +46,6 @@ class _ENTERPRISE_LLMGuard(CustomLogger):
         except Exception:
             pass
 
-    async def _get_moderation_response(self, text: str) -> Optional[dict]:
-        if self.mock_redacted_text is not None:
-            return self.mock_redacted_text
-        analyze_url = f"{self.llm_guard_api_base}analyze/prompt"
-        verbose_proxy_logger.debug("Making request to: %s", analyze_url)
-        async with aiohttp.ClientSession() as session:
-            async with session.post(
-                analyze_url, json={"prompt": text}
-            ) as response:
-                return await response.json()
-
     async def moderation_check(self, text: str) -> str:
         """
         Runs the LLM Guard moderation check on ``text``.
@@ -68,7 +57,16 @@ class _ENTERPRISE_LLMGuard(CustomLogger):
         [TODO] make this more performant for high-throughput scenario
         """
         try:
-            redacted_text = await self._get_moderation_response(text=text)
+            if self.mock_redacted_text is not None:
+                redacted_text = self.mock_redacted_text
+            else:
+                analyze_url = f"{self.llm_guard_api_base}analyze/prompt"
+                verbose_proxy_logger.debug("Making request to: %s", analyze_url)
+                async with aiohttp.ClientSession() as session:
+                    async with session.post(
+                        analyze_url, json={"prompt": text}
+                    ) as response:
+                        redacted_text = await response.json()
             verbose_proxy_logger.debug(
                 f"LLM Guard: Received response - {redacted_text}"
             )
