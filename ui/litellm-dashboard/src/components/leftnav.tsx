@@ -50,6 +50,7 @@ import {
   ScrollText,
   Search,
   Server,
+  ServerCog,
   Settings as SettingsIcon,
   Shield,
   ShieldCheck,
@@ -161,6 +162,7 @@ const menuGroups: MenuGroup[] = [
       },
       { key: "mcp-servers", page: "mcp-servers", label: "MCP Servers", icon: <Server {...ICON} /> },
       { key: "skills", page: "skills", label: "Skills", icon: <Blocks {...ICON} />, roles: all_admin_roles },
+      { key: "services", page: "services", label: "Services", icon: <ServerCog {...ICON} />, roles: all_admin_roles },
       { key: "guardrails", page: "guardrails", label: "Guardrails", icon: <Shield {...ICON} /> },
       {
         key: "policies",
