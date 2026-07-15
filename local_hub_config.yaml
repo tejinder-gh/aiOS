@@ -1,0 +1,38 @@
+# Local dev hub: single OpenAI-compatible entry point (localhost:4000) for every model.
+# Cloud providers come from dev_config.yaml (keys via .env); local open-source models
+# come from Ollama; two wildcards mean you rarely have to touch this file again.
+#
+# Start:  set -a; . ./.env; set +a; \
+#         uv run python litellm/proxy/proxy_cli.py --config local_hub_config.yaml --use_v2_migration_resolver
+
+include:
+  - litellm/proxy/dev_config.yaml   # cloud models (anthropic/openai/bedrock/vertex/azure) + general_settings + litellm_settings
+
+model_list:
+  # ---------- Local open-source models (Ollama) ----------
+  - model_name: devstral
+    litellm_params:
+      model: ollama_chat/devstral-small-2:latest
+      api_base: http://localhost:11434
+  - model_name: deepseek-coder
+    litellm_params:
+      model: ollama_chat/deepseek-coder:latest
+      api_base: http://localhost:11434
+  - model_name: dolphin3
+    litellm_params:
+      model: ollama_chat/dolphin3:latest
+      api_base: http://localhost:11434
+
+  # ---------- Wildcard: any model you `ollama pull` later works instantly ----------
+  # Call it as  ollama/<name>  e.g. ollama/llama3.2, ollama/qwen2.5-coder
+  - model_name: "ollama/*"
+    litellm_params:
+      model: "ollama_chat/*"
+      api_base: http://localhost:11434
+
+  # ---------- Global passthrough: any provider/model routes straight through ----------
+  # e.g. openai/gpt-4o-mini, anthropic/claude-haiku-4-5, groq/llama-3.3-70b-versatile
+  # (needs the matching key in .env). Explicit entries + ollama/* take precedence over this.
+  - model_name: "*"
+    litellm_params:
+      model: "*"

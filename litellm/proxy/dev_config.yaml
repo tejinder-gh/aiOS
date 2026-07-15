@@ -218,3 +218,182 @@ litellm_settings:
     sandbox_tool_name: e2b_sandbox
   callbacks:
     - code_interpreter_interception
+
+service_management:
+  services:
+    - name: ollama
+      display_name: Ollama
+      description: "Local open-source model runtime. Serves models on :11434."
+      docs_url: "https://ollama.com"
+      kind: brew
+      health_port: 11434
+      start_cmd: [brew, services, start, ollama]
+      stop_cmd: [brew, services, stop, ollama]
+      restart_cmd: [brew, services, restart, ollama]
+    - name: postgres
+      display_name: PostgreSQL
+      description: "Proxy database (virtual keys, teams, spend, logs)."
+      docs_url: "https://www.postgresql.org"
+      kind: brew
+      health_port: 5432
+      start_cmd: [brew, services, start, "postgresql@18"]
+      stop_cmd: [brew, services, stop, "postgresql@18"]
+      restart_cmd: [brew, services, restart, "postgresql@18"]
+    - name: redis
+      display_name: Redis
+      description: "Optional cache / coordination backend for the proxy."
+      docs_url: "https://redis.io"
+      kind: brew
+      health_port: 6379
+      start_cmd: [brew, services, start, redis]
+      stop_cmd: [brew, services, stop, redis]
+      restart_cmd: [brew, services, restart, redis]
+
+    - name: agents
+      display_name: Agents
+      description: "Agent stack (Postgres + Redis) from /opt/Developer/SourceCode/AI/agents."
+      kind: docker_compose
+      health_port: 5432
+      start_cmd: [docker, compose, -f, /opt/Developer/SourceCode/AI/agents/docker-compose.yml, up, -d]
+      stop_cmd: [docker, compose, -f, /opt/Developer/SourceCode/AI/agents/docker-compose.yml, down]
+      restart_cmd: [docker, compose, -f, /opt/Developer/SourceCode/AI/agents/docker-compose.yml, restart]
+    - name: firecrawl
+      display_name: Firecrawl
+      description: "Self-hosted Firecrawl scraping API. App on :3002."
+      kind: docker_compose
+      health_port: 3002
+      start_cmd: [docker, compose, -f, /opt/Developer/SourceCode/AI/firecrawl/docker-compose.yaml, up, -d]
+      stop_cmd: [docker, compose, -f, /opt/Developer/SourceCode/AI/firecrawl/docker-compose.yaml, down]
+      restart_cmd: [docker, compose, -f, /opt/Developer/SourceCode/AI/firecrawl/docker-compose.yaml, restart]
+    - name: mirofish
+      display_name: MiroFish
+      description: "MiroFish app. Web UI on :3000 (shares :3000 with other web apps)."
+      kind: docker_compose
+      health_port: 3000
+      start_cmd: [docker, compose, -f, /opt/Developer/SourceCode/AI/MiroFish/docker-compose.yml, up, -d]
+      stop_cmd: [docker, compose, -f, /opt/Developer/SourceCode/AI/MiroFish/docker-compose.yml, down]
+      restart_cmd: [docker, compose, -f, /opt/Developer/SourceCode/AI/MiroFish/docker-compose.yml, restart]
+    - name: omniroute
+      display_name: OmniRoute
+      description: "OmniRoute (web profile). Dashboard on :20128."
+      kind: docker_compose
+      health_port: 20128
+      start_cmd: [docker, compose, -f, /opt/Developer/SourceCode/AI/OmniRoute/docker-compose.yml, --profile, web, up, -d]
+      stop_cmd: [docker, compose, -f, /opt/Developer/SourceCode/AI/OmniRoute/docker-compose.yml, --profile, web, down]
+      restart_cmd: [docker, compose, -f, /opt/Developer/SourceCode/AI/OmniRoute/docker-compose.yml, --profile, web, restart]
+    - name: perplexica
+      display_name: Perplexica
+      description: "Perplexica search app. Web UI on :3000 (shares :3000 with other web apps)."
+      kind: docker_compose
+      health_port: 3000
+      start_cmd: [docker, compose, -f, /opt/Developer/SourceCode/AI/Perplexica/docker-compose.yaml, up, -d]
+      stop_cmd: [docker, compose, -f, /opt/Developer/SourceCode/AI/Perplexica/docker-compose.yaml, down]
+      restart_cmd: [docker, compose, -f, /opt/Developer/SourceCode/AI/Perplexica/docker-compose.yaml, restart]
+    - name: trending-open-source-repos
+      display_name: Trending OSS Repos
+      description: "Trending open-source repos app. Web UI on :3000 (shares :3000 with other web apps)."
+      kind: docker_compose
+      health_port: 3000
+      start_cmd: [docker, compose, -f, /opt/Developer/SourceCode/AI/trendingOpenSourcerepos/docker-compose.yml, up, -d]
+      stop_cmd: [docker, compose, -f, /opt/Developer/SourceCode/AI/trendingOpenSourcerepos/docker-compose.yml, down]
+      restart_cmd: [docker, compose, -f, /opt/Developer/SourceCode/AI/trendingOpenSourcerepos/docker-compose.yml, restart]
+    - name: local-web-leads
+      display_name: LocalWebLeads
+      description: "LocalWebLeads app. Web UI on :3000 (shares :3000 with other web apps)."
+      kind: docker_compose
+      health_port: 3000
+      start_cmd: [docker, compose, -f, /opt/Developer/SourceCode/AI/LocalWebLeads/docker-compose.yml, up, -d]
+      stop_cmd: [docker, compose, -f, /opt/Developer/SourceCode/AI/LocalWebLeads/docker-compose.yml, down]
+      restart_cmd: [docker, compose, -f, /opt/Developer/SourceCode/AI/LocalWebLeads/docker-compose.yml, restart]
+
+    - name: adk
+      display_name: "ADK (status-only)"
+      description: "No managed runner or exposed port; start manually. Card is status-only."
+      kind: command
+      health_port: 1
+      start_cmd: [echo, "adk: status-only, start it manually"]
+      stop_cmd: [echo, "adk: status-only, stop it manually"]
+    - name: agentic
+      display_name: "Agentic (status-only)"
+      description: "Python app (main.py); no exposed port. Card is status-only."
+      kind: command
+      health_port: 1
+      start_cmd: [echo, "agentic: status-only, start it manually"]
+      stop_cmd: [echo, "agentic: status-only, stop it manually"]
+    - name: autoshorts
+      display_name: "AutoShorts (status-only)"
+      description: "Python/Makefile app; no exposed port. Card is status-only."
+      kind: command
+      health_port: 1
+      start_cmd: [echo, "autoshorts: status-only, start it manually"]
+      stop_cmd: [echo, "autoshorts: status-only, stop it manually"]
+    - name: career-ops
+      display_name: "Career-Ops (status-only)"
+      description: "Interactive TUI; exposes no port. Card is status-only."
+      kind: command
+      health_port: 1
+      start_cmd: [echo, "career-ops: status-only, run the TUI manually"]
+      stop_cmd: [echo, "career-ops: status-only"]
+    - name: career-ops-gl
+      display_name: "Career-Ops-GL (status-only)"
+      description: "Interactive TUI; exposes no port. Card is status-only."
+      kind: command
+      health_port: 1
+      start_cmd: [echo, "career-ops-gl: status-only, run the TUI manually"]
+      stop_cmd: [echo, "career-ops-gl: status-only"]
+    - name: crease
+      display_name: "Crease (status-only)"
+      description: "No managed runner or exposed port; start manually. Card is status-only."
+      kind: command
+      health_port: 1
+      start_cmd: [echo, "crease: status-only, start it manually"]
+      stop_cmd: [echo, "crease: status-only, stop it manually"]
+    - name: llm-context-chat
+      display_name: "LLMContextChat (status-only)"
+      description: "No managed runner or exposed port; start manually. Card is status-only."
+      kind: command
+      health_port: 1
+      start_cmd: [echo, "llm-context-chat: status-only, start it manually"]
+      stop_cmd: [echo, "llm-context-chat: status-only, stop it manually"]
+    - name: lm-studio
+      display_name: "LM Studio (status-only)"
+      description: "Desktop GUI app; launch manually. Card is status-only."
+      kind: command
+      health_port: 1
+      start_cmd: [echo, "lm-studio: status-only, launch the desktop app manually"]
+      stop_cmd: [echo, "lm-studio: status-only"]
+    - name: nclex
+      display_name: "NCLEX (status-only)"
+      description: "No managed runner or exposed port; start manually. Card is status-only."
+      kind: command
+      health_port: 1
+      start_cmd: [echo, "nclex: status-only, start it manually"]
+      stop_cmd: [echo, "nclex: status-only, stop it manually"]
+    - name: nclex-gpt
+      display_name: "NCLEX-GPT (status-only)"
+      description: "No managed runner or exposed port; start manually. Card is status-only."
+      kind: command
+      health_port: 1
+      start_cmd: [echo, "nclex-gpt: status-only, start it manually"]
+      stop_cmd: [echo, "nclex-gpt: status-only, stop it manually"]
+    - name: simplify-immigration
+      display_name: "SimplifyImmigration (status-only)"
+      description: "No managed runner or exposed port; start manually. Card is status-only."
+      kind: command
+      health_port: 1
+      start_cmd: [echo, "simplify-immigration: status-only, start it manually"]
+      stop_cmd: [echo, "simplify-immigration: status-only, stop it manually"]
+    - name: skills
+      display_name: "Skills (status-only)"
+      description: "Skills library, not a service. Card is status-only."
+      kind: command
+      health_port: 1
+      start_cmd: [echo, "skills: status-only, not a runnable service"]
+      stop_cmd: [echo, "skills: status-only"]
+    - name: trading-bots
+      display_name: "Trading Bots (status-only)"
+      description: "No managed runner or exposed port; start manually. Card is status-only."
+      kind: command
+      health_port: 1
+      start_cmd: [echo, "trading-bots: status-only, start it manually"]
+      stop_cmd: [echo, "trading-bots: status-only, stop it manually"]
