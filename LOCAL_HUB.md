@@ -33,7 +33,7 @@ Model selection (`model` field):
 ## Configuration files
 
 - `local_hub_config.yaml` — the hub config. `include`s `litellm/proxy/dev_config.yaml` (cloud models + settings) and adds local Ollama models, the `ollama/*` wildcard and the global `*` passthrough.
-- `.env` (gitignored) — `DATABASE_URL`, `LITELLM_MASTER_KEY`, `LITELLM_SALT_KEY`, `STORE_MODEL_IN_DB`, and provider key placeholders. Fill the keys you use. Change `LITELLM_SALT_KEY` before storing any real provider key in the DB; it encrypts stored secrets and can't be rotated afterward.
+- `.env` (gitignored) — `DATABASE_URL`, `LITELLM_MASTER_KEY`, `LITELLM_SALT_KEY`, `STORE_MODEL_IN_DB`, `REDIS_HOST`/`REDIS_PORT`, and provider key placeholders. Fill the keys you use. Change `LITELLM_SALT_KEY` before storing any real provider key in the DB; it encrypts stored secrets and can't be rotated afterward. `dev_config.yaml` enables a Redis response cache and usage-based routing, so Redis must be running (`brew services start redis`, or the Services page) and `REDIS_HOST`/`REDIS_PORT` set.
 - Postgres: Homebrew `postgresql@18`, database `litellm`. The proxy runs Prisma migrations on boot.
 
 ## Running
@@ -60,6 +60,10 @@ Control is gated three ways, any one false makes it read-only:
 1. `LITELLM_ENABLE_SERVICE_CONTROL=true` (off by default)
 2. caller is a proxy admin
 3. target is an allowlisted service; only its fixed argv runs (no shell)
+
+Two per-service flags refine a card's behavior:
+- `prevent_stop: true` keeps the start action but removes stop/restart, so you can't take down a store the proxy itself depends on (Postgres, Redis)
+- `dashboard_only: true` makes the card status-only: no control actions and no port probe (status shows `unknown`). Use it for apps that expose no port and are launched by hand
 
 Add more services (vLLM, LM Studio, ...) without code changes by adding a `service_management.services` block to `local_hub_config.yaml`:
 
@@ -109,6 +113,13 @@ cd /opt/Developer/SourceCode/infra/litellm
 rm -rf litellm/proxy/_experimental/out && cp -r ui/litellm-dashboard/out/. litellm/proxy/_experimental/out/
 ```
 
+## Automation (macOS launchd + backups)
+
+Helper scripts under `scripts/` wrap the repetitive setup. They read `.env` without polluting the environment and never pipe remote scripts into a shell:
+- `setup_launchd.sh` installs a launchd agent (`com.litellm.aios`) that starts the hub on login via `run_hub_launchd.sh`
+- `backup_db.sh` dumps the `litellm` Postgres DB to `~/.litellm_backups` (gzip, atomic write); `setup_backup_launchd.sh` schedules it
+- `setup_virtual_keys.sh` provisions a per-app virtual key against the running proxy for per-app budgets and spend tracking
+
 ## Provider keys vs. subscriptions
 
 The proxy authenticates to providers with API keys (pay-as-you-go), set in `.env`. Consumer subscriptions (Claude Pro/Max, ChatGPT Plus/Go) are NOT API access and cannot be used as backend keys here; see the "Subscriptions" section notes kept with the setup. Use API keys for the proxy; use the subscription inside its own official app.
@@ -116,5 +127,4 @@ The proxy authenticates to providers with API keys (pay-as-you-go), set in `.env
 ## Before turning any of this into a PR
 
 - `npm run gen:api` (schema.d.ts is generated from the OpenAPI spec; routes changed)
-- add frontend tests for the Services page
 - `make pre-commit` (formats/lints, generates types) with the relevant files staged

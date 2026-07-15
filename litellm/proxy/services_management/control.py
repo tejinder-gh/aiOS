@@ -53,6 +53,24 @@ async def run_action(spec: ManagedServiceSpec, action: ServiceAction) -> Service
             status="unknown",
         )
 
+    if spec.dashboard_only:
+        return ServiceActionResult(
+            name=spec.name,
+            action=action,
+            success=False,
+            message=f"{spec.name} is a status-only service and cannot be controlled from the hub.",
+            status="unknown",
+        )
+
+    if spec.prevent_stop and action in ("stop", "restart"):
+        return ServiceActionResult(
+            name=spec.name,
+            action=action,
+            success=False,
+            message=f"{spec.name} is protected; stop/restart is disabled to keep the hub's own backing store up.",
+            status="unknown",
+        )
+
     argv = _argv_for(spec, action)
     if argv is None or len(argv) == 0:
         return ServiceActionResult(
@@ -90,7 +108,9 @@ async def run_action(spec: ManagedServiceSpec, action: ServiceAction) -> Service
     output = stdout_bytes.decode(errors="replace").strip()
     succeeded = process.returncode == 0
     if not succeeded:
-        verbose_proxy_logger.warning("service control %s %s failed (rc=%s): %s", action, spec.name, process.returncode, output)
+        verbose_proxy_logger.warning(
+            "service control %s %s failed (rc=%s): %s", action, spec.name, process.returncode, output
+        )
 
     return ServiceActionResult(
         name=spec.name,

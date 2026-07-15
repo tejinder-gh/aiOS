@@ -210,9 +210,25 @@ sandbox_tools:
       sandbox_provider: e2b
       api_key: os.environ/E2B_API_KEY
 
+router_settings:
+  routing_strategy: usage-based-routing-v2
+  redis_host: os.environ/REDIS_HOST
+  redis_port: os.environ/REDIS_PORT
+  num_retries: 3
+  fallbacks: 
+    - {"anthropic-haiku-4-5": ["bedrock-invoke-haiku-4-5", "vertex-haiku-4-5"]}
+    - {"gpt-4o-mini": ["devstral"]}
+
 litellm_settings:
   drop_params: True
   telemetry: False
+  success_callback: ["prometheus", "otel"]
+  failure_callback: ["prometheus", "otel"]
+  cache: true
+  cache_params:
+    type: redis
+    host: os.environ/REDIS_HOST
+    port: os.environ/REDIS_PORT
   code_interpreter_interception_params:
     enabled: true
     sandbox_tool_name: e2b_sandbox
@@ -235,6 +251,7 @@ service_management:
       description: "Proxy database (virtual keys, teams, spend, logs)."
       docs_url: "https://www.postgresql.org"
       kind: brew
+      prevent_stop: true
       health_port: 5432
       start_cmd: [brew, services, start, "postgresql@18"]
       stop_cmd: [brew, services, stop, "postgresql@18"]
@@ -244,6 +261,7 @@ service_management:
       description: "Optional cache / coordination backend for the proxy."
       docs_url: "https://redis.io"
       kind: brew
+      prevent_stop: true
       health_port: 6379
       start_cmd: [brew, services, start, redis]
       stop_cmd: [brew, services, stop, redis]
@@ -310,6 +328,7 @@ service_management:
       display_name: "ADK (status-only)"
       description: "No managed runner or exposed port; start manually. Card is status-only."
       kind: command
+      dashboard_only: true
       health_port: 1
       start_cmd: [echo, "adk: status-only, start it manually"]
       stop_cmd: [echo, "adk: status-only, stop it manually"]
@@ -317,6 +336,7 @@ service_management:
       display_name: "Agentic (status-only)"
       description: "Python app (main.py); no exposed port. Card is status-only."
       kind: command
+      dashboard_only: true
       health_port: 1
       start_cmd: [echo, "agentic: status-only, start it manually"]
       stop_cmd: [echo, "agentic: status-only, stop it manually"]
@@ -324,6 +344,7 @@ service_management:
       display_name: "AutoShorts (status-only)"
       description: "Python/Makefile app; no exposed port. Card is status-only."
       kind: command
+      dashboard_only: true
       health_port: 1
       start_cmd: [echo, "autoshorts: status-only, start it manually"]
       stop_cmd: [echo, "autoshorts: status-only, stop it manually"]
@@ -331,6 +352,7 @@ service_management:
       display_name: "Career-Ops (status-only)"
       description: "Interactive TUI; exposes no port. Card is status-only."
       kind: command
+      dashboard_only: true
       health_port: 1
       start_cmd: [echo, "career-ops: status-only, run the TUI manually"]
       stop_cmd: [echo, "career-ops: status-only"]
@@ -338,6 +360,7 @@ service_management:
       display_name: "Career-Ops-GL (status-only)"
       description: "Interactive TUI; exposes no port. Card is status-only."
       kind: command
+      dashboard_only: true
       health_port: 1
       start_cmd: [echo, "career-ops-gl: status-only, run the TUI manually"]
       stop_cmd: [echo, "career-ops-gl: status-only"]
@@ -345,6 +368,7 @@ service_management:
       display_name: "Crease (status-only)"
       description: "No managed runner or exposed port; start manually. Card is status-only."
       kind: command
+      dashboard_only: true
       health_port: 1
       start_cmd: [echo, "crease: status-only, start it manually"]
       stop_cmd: [echo, "crease: status-only, stop it manually"]
@@ -352,6 +376,7 @@ service_management:
       display_name: "LLMContextChat (status-only)"
       description: "No managed runner or exposed port; start manually. Card is status-only."
       kind: command
+      dashboard_only: true
       health_port: 1
       start_cmd: [echo, "llm-context-chat: status-only, start it manually"]
       stop_cmd: [echo, "llm-context-chat: status-only, stop it manually"]
@@ -359,6 +384,7 @@ service_management:
       display_name: "LM Studio (status-only)"
       description: "Desktop GUI app; launch manually. Card is status-only."
       kind: command
+      dashboard_only: true
       health_port: 1
       start_cmd: [echo, "lm-studio: status-only, launch the desktop app manually"]
       stop_cmd: [echo, "lm-studio: status-only"]
@@ -366,6 +392,7 @@ service_management:
       display_name: "NCLEX (status-only)"
       description: "No managed runner or exposed port; start manually. Card is status-only."
       kind: command
+      dashboard_only: true
       health_port: 1
       start_cmd: [echo, "nclex: status-only, start it manually"]
       stop_cmd: [echo, "nclex: status-only, stop it manually"]
@@ -373,6 +400,7 @@ service_management:
       display_name: "NCLEX-GPT (status-only)"
       description: "No managed runner or exposed port; start manually. Card is status-only."
       kind: command
+      dashboard_only: true
       health_port: 1
       start_cmd: [echo, "nclex-gpt: status-only, start it manually"]
       stop_cmd: [echo, "nclex-gpt: status-only, stop it manually"]
@@ -380,6 +408,7 @@ service_management:
       display_name: "SimplifyImmigration (status-only)"
       description: "No managed runner or exposed port; start manually. Card is status-only."
       kind: command
+      dashboard_only: true
       health_port: 1
       start_cmd: [echo, "simplify-immigration: status-only, start it manually"]
       stop_cmd: [echo, "simplify-immigration: status-only, stop it manually"]
@@ -387,6 +416,7 @@ service_management:
       display_name: "Skills (status-only)"
       description: "Skills library, not a service. Card is status-only."
       kind: command
+      dashboard_only: true
       health_port: 1
       start_cmd: [echo, "skills: status-only, not a runnable service"]
       stop_cmd: [echo, "skills: status-only"]
@@ -394,6 +424,7 @@ service_management:
       display_name: "Trading Bots (status-only)"
       description: "No managed runner or exposed port; start manually. Card is status-only."
       kind: command
+      dashboard_only: true
       health_port: 1
       start_cmd: [echo, "trading-bots: status-only, start it manually"]
       stop_cmd: [echo, "trading-bots: status-only, stop it manually"]

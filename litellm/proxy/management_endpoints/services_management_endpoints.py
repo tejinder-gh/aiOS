@@ -52,7 +52,10 @@ def _active_specs() -> Tuple[ManagedServiceSpec, ...]:
 
 
 def _state_from(spec: ManagedServiceSpec, status: ServiceStatus, controllable: bool) -> ServiceState:
-    detail = "listening" if status == "running" else "not listening"
+    if spec.dashboard_only:
+        detail = "status-only"
+    else:
+        detail = "listening" if status == "running" else "not listening"
     return ServiceState(
         name=spec.name,
         display_name=spec.display_name,
@@ -63,7 +66,9 @@ def _state_from(spec: ManagedServiceSpec, status: ServiceStatus, controllable: b
         healthy=status == "running",
         endpoint=f"{spec.health_host}:{spec.health_port}",
         detail=detail,
-        control_enabled=controllable,
+        control_enabled=controllable and not spec.dashboard_only,
+        prevent_stop=spec.prevent_stop,
+        dashboard_only=spec.dashboard_only,
     )
 
 
@@ -81,7 +86,12 @@ async def list_services(
     specs = _active_specs()
     controllable = control_enabled()
 
-    statuses = await asyncio.gather(*(probe_status(spec) for spec in specs))
+    async def _status_for(spec: ManagedServiceSpec) -> ServiceStatus:
+        if spec.dashboard_only:
+            return "unknown"
+        return await probe_status(spec)
+
+    statuses = await asyncio.gather(*(_status_for(spec) for spec in specs))
     states = tuple(_state_from(spec, status, controllable) for spec, status in zip(specs, statuses))
     return ServiceListResponse(control_enabled=controllable, services=states)
 

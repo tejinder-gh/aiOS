@@ -12258,6 +12258,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/services/list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Services
+         * @description Return the status of every registered local service.
+         */
+        get: operations["list_services_services_list_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/services/{name}/action": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Service Action
+         * @description Start, stop or restart one registered service.
+         */
+        post: operations["service_action_services__name__action_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/settings": {
         parameters: {
             query?: never;
@@ -30788,6 +30828,76 @@ export interface components {
             /** Timeout */
             timeout?: number | null;
         };
+        /** ServiceActionRequest */
+        ServiceActionRequest: {
+            /**
+             * Action
+             * @enum {string}
+             */
+            action: "start" | "stop" | "restart";
+        };
+        /** ServiceActionResult */
+        ServiceActionResult: {
+            /**
+             * Action
+             * @enum {string}
+             */
+            action: "start" | "stop" | "restart";
+            /** Message */
+            message: string;
+            /** Name */
+            name: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "running" | "stopped" | "unknown";
+            /** Success */
+            success: boolean;
+        };
+        /** ServiceListResponse */
+        ServiceListResponse: {
+            /** Control Enabled */
+            control_enabled: boolean;
+            /** Services */
+            services: components["schemas"]["ServiceState"][];
+        };
+        /**
+         * ServiceState
+         * @description Status of one service as returned to the dashboard.
+         */
+        ServiceState: {
+            /** Control Enabled */
+            control_enabled: boolean;
+            /** Dashboard Only */
+            dashboard_only: boolean;
+            /** Description */
+            description: string;
+            /** Detail */
+            detail: string;
+            /** Display Name */
+            display_name: string;
+            /** Docs Url */
+            docs_url: string | null;
+            /** Endpoint */
+            endpoint: string;
+            /** Healthy */
+            healthy: boolean;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "brew" | "docker_compose" | "command";
+            /** Name */
+            name: string;
+            /** Prevent Stop */
+            prevent_stop: boolean;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "running" | "stopped" | "unknown";
+        };
         /**
          * Skill
          * @description Represents a skill from the Anthropic Skills API
@@ -48805,6 +48915,62 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_services_services_list_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceListResponse"];
+                };
+            };
+        };
+    };
+    service_action_services__name__action_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Registered service name, e.g. 'ollama' */
+                name: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceActionRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceActionResult"];
                 };
             };
             /** @description Validation Error */

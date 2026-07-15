@@ -2,7 +2,6 @@ import asyncio
 
 import pytest
 
-from litellm.proxy.services_management import control
 from litellm.proxy.services_management.control import _argv_for, control_enabled, run_action
 from litellm.types.services_management import ManagedServiceSpec
 
@@ -19,7 +18,16 @@ _SPEC = ManagedServiceSpec(
 
 @pytest.mark.parametrize(
     "value,expected",
-    [("1", True), ("true", True), ("TRUE", True), ("yes", True), ("on", True), ("0", False), ("", False), ("nope", False)],
+    [
+        ("1", True),
+        ("true", True),
+        ("TRUE", True),
+        ("yes", True),
+        ("on", True),
+        ("0", False),
+        ("", False),
+        ("nope", False),
+    ],
 )
 def test_control_enabled_reads_env(monkeypatch, value, expected):
     monkeypatch.setenv("LITELLM_ENABLE_SERVICE_CONTROL", value)
@@ -72,6 +80,62 @@ async def test_enabled_runs_only_spec_argv(monkeypatch):
     assert recorded["argv"] == ("brew", "services", "stop", "demo")
     assert result.success is True
     assert result.message == "started"
+
+
+_PROTECTED_SPEC = _SPEC.model_copy(update={"prevent_stop": True})
+_DASHBOARD_ONLY_SPEC = _SPEC.model_copy(update={"dashboard_only": True})
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("action", ["stop", "restart"])
+async def test_prevent_stop_blocks_stop_and_restart_without_spawning(monkeypatch, action):
+    monkeypatch.setenv("LITELLM_ENABLE_SERVICE_CONTROL", "true")
+
+    async def _boom(*args, **kwargs):
+        raise AssertionError("a protected service must never spawn a stop/restart process")
+
+    monkeypatch.setattr(asyncio, "create_subprocess_exec", _boom)
+
+    result = await run_action(_PROTECTED_SPEC, action)
+    assert result.success is False
+    assert "protected" in result.message.lower()
+
+
+@pytest.mark.asyncio
+async def test_prevent_stop_still_allows_start(monkeypatch):
+    monkeypatch.setenv("LITELLM_ENABLE_SERVICE_CONTROL", "true")
+    recorded = {}
+
+    class _FakeProc:
+        returncode = 0
+
+        async def communicate(self):
+            return (b"started", b"")
+
+    async def _fake_exec(*argv, **kwargs):
+        recorded["argv"] = argv
+        return _FakeProc()
+
+    monkeypatch.setattr(asyncio, "create_subprocess_exec", _fake_exec)
+
+    result = await run_action(_PROTECTED_SPEC, "start")
+    assert result.success is True
+    assert recorded["argv"] == ("brew", "services", "start", "demo")
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("action", ["start", "stop", "restart"])
+async def test_dashboard_only_rejects_every_action_without_spawning(monkeypatch, action):
+    monkeypatch.setenv("LITELLM_ENABLE_SERVICE_CONTROL", "true")
+
+    async def _boom(*args, **kwargs):
+        raise AssertionError("a status-only service must never spawn a process")
+
+    monkeypatch.setattr(asyncio, "create_subprocess_exec", _boom)
+
+    result = await run_action(_DASHBOARD_ONLY_SPEC, action)
+    assert result.success is False
+    assert "status-only" in result.message.lower()
 
 
 @pytest.mark.asyncio

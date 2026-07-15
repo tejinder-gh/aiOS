@@ -13,6 +13,8 @@ export interface ServiceState {
   endpoint: string;
   detail: string;
   control_enabled: boolean;
+  prevent_stop: boolean;
+  dashboard_only: boolean;
 }
 
 export interface ServiceListResponse {

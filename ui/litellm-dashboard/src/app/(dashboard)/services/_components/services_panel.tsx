@@ -37,7 +37,7 @@ function ServiceCard({
   onAction: (name: string, action: ServiceAction) => void;
 }) {
   const disabled = !controlEnabled || pending !== null;
-  const actions: ServiceAction[] = ["start", "stop", "restart"];
+  const actions: ServiceAction[] = service.prevent_stop ? ["start"] : ["start", "stop", "restart"];
 
   return (
     <Card className="flex flex-col gap-3">
@@ -57,18 +57,22 @@ function ServiceCard({
       </Text>
 
       <div className="flex gap-2">
-        {actions.map((action) => (
-          <Button
-            key={action}
-            size="xs"
-            variant={action === "stop" ? "secondary" : "primary"}
-            disabled={disabled}
-            loading={pending === action}
-            onClick={() => onAction(service.name, action)}
-          >
-            {action}
-          </Button>
-        ))}
+        {service.dashboard_only ? (
+          <Text className="text-xs text-gray-500 self-center">status-only</Text>
+        ) : (
+          actions.map((action) => (
+            <Button
+              key={action}
+              size="xs"
+              variant={action === "stop" ? "secondary" : "primary"}
+              disabled={disabled}
+              loading={pending === action}
+              onClick={() => onAction(service.name, action)}
+            >
+              {action}
+            </Button>
+          ))
+        )}
         {service.docs_url && (
           <a
             href={service.docs_url}

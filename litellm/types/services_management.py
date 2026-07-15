@@ -37,6 +37,14 @@ class ManagedServiceSpec(BaseModel):
     start_cmd: Tuple[str, ...]
     stop_cmd: Tuple[str, ...]
     restart_cmd: Optional[Tuple[str, ...]] = None
+    prevent_stop: bool = Field(
+        default=False,
+        description="If true, the service can start but never stop/restart (e.g. the proxy's own Postgres/Redis).",
+    )
+    dashboard_only: bool = Field(
+        default=False,
+        description="If true, the card is status-only: no control actions, no TCP probe (status is 'unknown').",
+    )
 
 
 class ServiceState(BaseModel):
@@ -54,6 +62,8 @@ class ServiceState(BaseModel):
     endpoint: str
     detail: str
     control_enabled: bool
+    prevent_stop: bool
+    dashboard_only: bool
 
 
 class ServiceActionRequest(BaseModel):
