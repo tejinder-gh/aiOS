@@ -39,6 +39,13 @@ class KeyMetadata(BaseModel):
     logging: list[KeyLoggingCallback] | None = None
 
 
+class KeyObjectPermission(BaseModel):
+    """object_permission on /key/generate: the MCP servers (by server_id) a key
+    may list and call. A key without one only reaches allow_all_keys servers."""
+
+    mcp_servers: list[str] | None = None
+
+
 class KeyGenerateBody(BaseModel):
     models: list[str] = []
     duration: str | None = None
@@ -57,6 +64,7 @@ class KeyGenerateBody(BaseModel):
     rpm_limit: int | None = None
     allowed_routes: list[str] | None = None
     metadata: KeyMetadata | None = None
+    object_permission: KeyObjectPermission | None = None
 
 
 class KeyGenerateResponse(BaseModel):
@@ -112,7 +120,8 @@ class McpServerCredentials(BaseModel):
 
 class McpServerCreateBody(BaseModel):
     """POST /v1/mcp/server. `allow_all_keys` opts the server out of per-key
-    object_permission grants so any virtual key on the proxy may use it."""
+    object_permission grants so any virtual key on the proxy may use it.
+    `allowed_tools` restricts the server to a subset of its upstream tools."""
 
     alias: str
     url: str
@@ -124,6 +133,7 @@ class McpServerCreateBody(BaseModel):
     authorization_url: str | None = None
     token_url: str | None = None
     oauth2_flow: Literal["client_credentials", "authorization_code"] | None = None
+    allowed_tools: list[str] | None = None
 
 
 class McpServerInfo(BaseModel):
@@ -140,6 +150,7 @@ class McpServerInfo(BaseModel):
     authorization_url: str | None = None
     token_url: str | None = None
     oauth2_flow: str | None = None
+    allowed_tools: list[str] = []
 
 
 # ---------- customers ----------
