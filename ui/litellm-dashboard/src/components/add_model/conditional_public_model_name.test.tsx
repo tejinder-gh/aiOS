@@ -23,6 +23,6 @@ describe("ConditionalPublicModelName", () => {
 
     expect(screen.getByText("Model Mappings")).toBeInTheDocument();
     expect(screen.getByText("Public Model Name")).toBeInTheDocument();
-    expect(screen.getByText("LiteLLM Model Name")).toBeInTheDocument();
+    expect(screen.getByText("aiOS Model Name")).toBeInTheDocument();
   });
 });

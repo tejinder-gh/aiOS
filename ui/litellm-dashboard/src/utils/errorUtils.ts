@@ -1,7 +1,7 @@
 /**
  * Shared error-message extraction utility.
  *
- * Handles the common shapes returned by LiteLLM / FastAPI:
+ * Handles the common shapes returned by aiOS / FastAPI:
  *   - Error instances (err.message)
  *   - { detail: "string" }
  *   - { detail: [{ msg, loc, type }] }   (FastAPI 422)

@@ -217,7 +217,7 @@ const RoutingGroupsTable: React.FC<RoutingGroupsTableProps> = ({ groups, loading
               <Text strong>How routing works for this group</Text>
             </Flex>
             <Paragraph className="text-sm text-gray-600 mb-3">
-              Callers request any model in the group by name — LiteLLM picks a deployment behind the scenes using the{" "}
+              Callers request any model in the group by name — aiOS picks a deployment behind the scenes using the{" "}
               <Text strong>{formatStrategyLabel(group.routing_strategy)}</Text> strategy.
             </Paragraph>
             <RoutingGroupSnippet group={group} baseUrl={baseUrl} />

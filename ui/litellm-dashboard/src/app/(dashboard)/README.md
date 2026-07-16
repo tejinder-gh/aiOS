@@ -1,6 +1,6 @@
-# Contributing to the LiteLLM UI
+# Contributing to the aiOS UI
 
-The LiteLLM UI is currently being refactored/rewritten to reduce development friction. Please read this document to understand what's expected for new contributions.
+The aiOS UI is currently being refactored/rewritten to reduce development friction. Please read this document to understand what's expected for new contributions.
 
 The project follows strict NextJS file structure. All pages on the site (determined by the sidebar) are contained in their own folder, and routing is automatically handled by NextJS based on the file structure.
 

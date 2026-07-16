@@ -115,7 +115,7 @@ const MCPToolsViewer = ({
     const customHeaders: Record<string, string> = {};
 
     // Include the session OAuth token using MCP-specific headers so it doesn't
-    // conflict with the Authorization header used by the LiteLLM proxy itself.
+    // conflict with the Authorization header used by the aiOS proxy itself.
     // The backend's _get_mcp_server_auth_headers_from_headers() picks up the
     // x-mcp-{alias}-{header} pattern and forwards it to the upstream MCP server.
     // When no alias is available, fall back to x-mcp-auth (legacy but still supported).

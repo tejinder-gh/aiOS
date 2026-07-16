@@ -344,11 +344,11 @@ describe("MCPServerEdit (true passthrough warning)", () => {
       />,
     );
 
-  it("warns that LiteLLM auth is disabled for a true_passthrough server", async () => {
+  it("warns that aiOS auth is disabled for a true_passthrough server", async () => {
     renderWithAuthType("true_passthrough");
 
     await waitFor(() => {
-      expect(screen.getByText("True Passthrough disables LiteLLM authentication for this server")).toBeInTheDocument();
+      expect(screen.getByText("True Passthrough disables aiOS authentication for this server")).toBeInTheDocument();
     });
   });
 
@@ -358,9 +358,7 @@ describe("MCPServerEdit (true passthrough warning)", () => {
     await waitFor(() => {
       expect(screen.getAllByRole("button", { name: "Save Changes" }).length).toBeGreaterThan(0);
     });
-    expect(
-      screen.queryByText("True Passthrough disables LiteLLM authentication for this server"),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText("True Passthrough disables aiOS authentication for this server")).not.toBeInTheDocument();
   });
 
   it("browser-authorize temp payload uses the selected auth_type, not the stored one", async () => {
@@ -377,7 +375,7 @@ describe("MCPServerEdit (true passthrough warning)", () => {
       />,
     );
 
-    await selectAntOption("Authentication", "True Passthrough (no LiteLLM auth)");
+    await selectAntOption("Authentication", "True Passthrough (no aiOS auth)");
 
     await waitFor(() => {
       expect(mockOauth.getTemporaryPayload).toBeTruthy();
@@ -1651,7 +1649,7 @@ describe("MCPServerEdit (OAuth token persistence on save)", () => {
 
     await selectAntOption("Authentication", "OAuth Delegate (client-supplied upstream token)");
     mockOauth.tokenResponse = { access_token: "fresh-tok", token_type: "bearer" };
-    await selectAntOption("Authentication", "True Passthrough (no LiteLLM auth)");
+    await selectAntOption("Authentication", "True Passthrough (no aiOS auth)");
 
     await waitFor(() => {
       const withHeaders = vi

@@ -20,7 +20,7 @@ export function OnboardingFormBody({ variant, userEmail, isPending, claimError, 
     <div className="mx-auto w-full max-w-md mt-10">
       <Card>
         <Typography.Title level={5} className="text-center mb-5">
-          🚅 LiteLLM
+          🚅 aiOS
         </Typography.Title>
         <Typography.Title level={3}>{variant === "reset_password" ? "Reset Password" : "Sign Up"}</Typography.Title>
         <Typography.Text>

@@ -1,6 +1,6 @@
 # Prompts Component
 
-This component provides a view-only interface for viewing prompts in the LiteLLM dashboard, similar to the guardrails component.
+This component provides a view-only interface for viewing prompts in the aiOS dashboard, similar to the guardrails component.
 
 ## Components
 

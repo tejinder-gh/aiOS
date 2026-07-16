@@ -12,7 +12,7 @@ describe("NotificationsBell", () => {
     const user = userEvent.setup();
     renderWithProviders(<NotificationsBell />);
     await user.click(screen.getByRole("button", { name: /^notifications$/i }));
-    expect(screen.getByText(/LiteLLM Agent Platform/i)).toBeInTheDocument();
+    expect(screen.getByText(/aiOS Agent Platform/i)).toBeInTheDocument();
     const githubBtn = screen.getByRole("link", { name: /^GitHub$/i });
     expect(githubBtn).toHaveAttribute("href", AGENT_PLATFORM_URL);
     expect(githubBtn).toHaveAttribute("target", "_blank");

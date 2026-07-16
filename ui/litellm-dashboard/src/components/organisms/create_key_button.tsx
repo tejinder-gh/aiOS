@@ -794,7 +794,7 @@ const CreateKey: React.FC<CreateKeyProps> = ({ team, teams, data, addKey, autoOp
                   }))}
                 />
                 <div className="text-xs text-gray-500 mt-2">
-                  This key will be used by the selected agent to make requests to LiteLLM
+                  This key will be used by the selected agent to make requests to aiOS
                 </div>
               </div>
             )}

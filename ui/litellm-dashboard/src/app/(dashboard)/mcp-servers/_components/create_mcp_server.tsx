@@ -234,7 +234,7 @@ const CreateMCPServer: React.FC<CreateMCPServerProps> = ({
         // edit form's onTokenReceived early return.
         setAuthorizedIdentity(getOAuthAuthorizationIdentity(form.getFieldsValue(true)));
         NotificationsManager.success(
-          "Token held for this browser session. Tools can now be previewed and configured; the token is not saved to LiteLLM.",
+          "Token held for this browser session. Tools can now be previewed and configured; the token is not saved to aiOS.",
         );
         return;
       }
@@ -1042,7 +1042,7 @@ const CreateMCPServer: React.FC<CreateMCPServerProps> = ({
               label={
                 <span className="text-sm font-medium text-gray-700 flex items-center">
                   Max Concurrent Requests (optional)
-                  <Tooltip title="Maximum number of tool calls LiteLLM will run against this server at the same time. Additional calls wait for a free slot. Leave blank for no limit.">
+                  <Tooltip title="Maximum number of tool calls aiOS will run against this server at the same time. Additional calls wait for a free slot. Leave blank for no limit.">
                     <InfoCircleOutlined className="ml-2 text-blue-400 hover:text-blue-600 cursor-help" />
                   </Tooltip>
                 </span>
@@ -1079,7 +1079,7 @@ const CreateMCPServer: React.FC<CreateMCPServerProps> = ({
                             <Select.Option value="oauth2">OAuth</Select.Option>
                             <Select.Option value="oauth2_token_exchange">OAuth Token Exchange (OBO)</Select.Option>
                             <Select.Option value="aws_sigv4">AWS SigV4 (Bedrock AgentCore MCPs)</Select.Option>
-                            <Select.Option value="true_passthrough">True Passthrough (no LiteLLM auth)</Select.Option>
+                            <Select.Option value="true_passthrough">True Passthrough (no aiOS auth)</Select.Option>
                             <Select.Option value="oauth_delegate">
                               OAuth Delegate (client-supplied upstream token)
                             </Select.Option>
@@ -1276,7 +1276,7 @@ const CreateMCPServer: React.FC<CreateMCPServerProps> = ({
                   label={
                     <span className="text-sm font-medium text-gray-700 flex items-center">
                       AWS Role ARN
-                      <Tooltip title="Optional. IAM role ARN to assume via STS before signing. If set, LiteLLM calls sts:AssumeRole to get temporary credentials. Uses ambient credentials (IAM role, env vars) as the source identity unless explicit keys are also provided.">
+                      <Tooltip title="Optional. IAM role ARN to assume via STS before signing. If set, aiOS calls sts:AssumeRole to get temporary credentials. Uses ambient credentials (IAM role, env vars) as the source identity unless explicit keys are also provided.">
                         <InfoCircleOutlined className="ml-2 text-blue-400 hover:text-blue-600 cursor-help" />
                       </Tooltip>
                     </span>

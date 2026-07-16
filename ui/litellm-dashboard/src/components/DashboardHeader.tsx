@@ -12,7 +12,6 @@ import { Separator } from "@/components/ui/separator";
 import { getBreadcrumb } from "@/components/leftnav";
 import { BlogDropdown } from "@/components/Navbar/BlogDropdown/BlogDropdown";
 import { CommunityEngagementButtons } from "@/components/Navbar/CommunityEngagementButtons/CommunityEngagementButtons";
-import { NotificationsBell } from "@/components/Navbar/NotificationsBell/NotificationsBell";
 import ViewSwitcher from "@/components/Navbar/ViewSwitcher";
 import WorkerDropdown from "@/components/Navbar/WorkerDropdown/WorkerDropdown";
 import { useWorker } from "@/hooks/useWorker";
@@ -72,8 +71,6 @@ export function DashboardHeader({ page }: DashboardHeaderProps) {
         </Button>
         <BlogDropdown />
         {!hideCommunityLinks && <CommunityEngagementButtons />}
-        <Separator orientation="vertical" className="mx-1.5 h-5" />
-        <NotificationsBell />
       </div>
     </header>
   );

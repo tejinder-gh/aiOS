@@ -63,7 +63,7 @@ export default function UpdateModelCredentialsModal({
         type="warning"
         showIcon
         className="mb-4"
-        message="Only the API key is rotated here. Models that authenticate with an Azure AD token, AWS credentials, or a Vertex service-account JSON aren't supported yet; update those from the model's LiteLLM Params for now."
+        message="Only the API key is rotated here. Models that authenticate with an Azure AD token, AWS credentials, or a Vertex service-account JSON aren't supported yet; update those from the model's aiOS Params for now."
       />
       <Form form={form} onFinish={handleSubmit} layout="vertical">
         <Form.Item label="New API Key" name="api_key" rules={[{ required: true, message: "Enter a new API key" }]}>

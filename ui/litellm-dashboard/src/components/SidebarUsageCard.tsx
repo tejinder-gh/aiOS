@@ -74,7 +74,7 @@ const buildMeters = (data: RemainingUsage | null): MeterData[] => {
 
 /**
  * Bottom-dock "Enterprise usage" card for the sidebar. Backed only by data
- * LiteLLM actually exposes: seat (user) and team allocations from the license,
+ * aiOS actually exposes: seat (user) and team allocations from the license,
  * plus the license expiry. There is no plan-level spend or request cap, so the
  * design's Spend / API-request meters are intentionally omitted.
  */

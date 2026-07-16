@@ -129,7 +129,7 @@ const CacheSettings: React.FC<CacheSettingsProps> = ({ accessToken }) => {
       <Form form={form} layout="vertical" requiredMark={false} className="space-y-6">
         <div className="max-w-3xl">
           <h3 className="text-sm font-medium text-gray-900">Cache Settings</h3>
-          <p className="text-xs text-gray-500 mt-1">Configure Redis cache for LiteLLM</p>
+          <p className="text-xs text-gray-500 mt-1">Configure Redis cache for aiOS</p>
         </div>
 
         <RedisTypeSelector

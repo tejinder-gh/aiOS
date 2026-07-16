@@ -572,7 +572,7 @@ const PoliciesPanel: React.FC<PoliciesPanelProps> = ({ accessToken, userRole }) 
 
             <Alert
               message="Enterprise Feature Notice"
-              description="Parts of policy attachments will be on LiteLLM Enterprise in subsequent releases."
+              description="Parts of policy attachments will be in the enterprise tier in subsequent releases."
               type="warning"
               showIcon
               closable

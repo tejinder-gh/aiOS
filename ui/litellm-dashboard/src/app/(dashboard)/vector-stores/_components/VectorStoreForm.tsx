@@ -161,7 +161,7 @@ const VectorStoreForm: React.FC<VectorStoreFormProps> = ({
             message="PG Vector Setup Required"
             description={
               <div>
-                <p>LiteLLM provides a server to connect to PG Vector. To use this provider:</p>
+                <p>aiOS provides a server to connect to PG Vector. To use this provider:</p>
                 <ol style={{ marginLeft: "16px", marginTop: "8px" }}>
                   <li>
                     Deploy the litellm-pgvector server from:{" "}
@@ -239,8 +239,8 @@ const VectorStoreForm: React.FC<VectorStoreFormProps> = ({
                   <li>
                     For website, healthcare, and connector-based sources (Drive, Gmail, Slack, Jira, etc.): create a
                     search app on top of the data store, then copy the <strong>Engine ID</strong> and enter it in the
-                    Engine ID field. The Vector Store ID is still required as the LiteLLM-side name for this record, but
-                    it isn't used in the GCP URL when Engine ID is set.
+                    Engine ID field. The Vector Store ID is still required as the aiOS-side name for this record, but it
+                    isn't used in the GCP URL when Engine ID is set.
                   </li>
                 </ol>
               </div>
@@ -269,7 +269,7 @@ const VectorStoreForm: React.FC<VectorStoreFormProps> = ({
                 ? "6917529027641081856 (Get corpus ID from Vertex AI console)"
                 : selectedProvider === "vertex_ai/search_api"
                   ? vertexEngineId
-                    ? "Any identifier you'll use to reference this in LiteLLM"
+                    ? "Any identifier you'll use to reference this in aiOS"
                     : "my-datastore_1234567890 (Get data store ID from Vertex AI Search console)"
                   : "Enter vector store ID from your provider"
             }
@@ -341,7 +341,7 @@ const VectorStoreForm: React.FC<VectorStoreFormProps> = ({
           label={
             <span>
               Vector Store Name{" "}
-              <Tooltip title="Custom name you want to give to the vector store, this name will be rendered on the LiteLLM UI">
+              <Tooltip title="Custom name you want to give to the vector store, this name will be rendered on the aiOS UI">
                 <InfoCircleOutlined style={{ marginLeft: "4px" }} />
               </Tooltip>
             </span>

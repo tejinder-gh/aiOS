@@ -15,7 +15,7 @@ export default function CloudZeroEmptyPlaceholder({ startCreation }: CloudZeroEm
           <div className="space-y-2">
             <Title level={4}>No CloudZero Integration Found</Title>
             <Paragraph type="secondary" className="max-w-md mx-auto">
-              Connect your CloudZero account to start tracking and analyzing your cloud costs directly from LiteLLM.
+              Connect your CloudZero account to start tracking and analyzing your cloud costs directly from aiOS.
             </Paragraph>
           </div>
         }

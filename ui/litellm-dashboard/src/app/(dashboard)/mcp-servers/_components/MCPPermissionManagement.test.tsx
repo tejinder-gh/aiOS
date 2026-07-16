@@ -44,7 +44,7 @@ describe("MCPPermissionManagement", () => {
   it("should default allow_all_keys switch to unchecked for new servers", async () => {
     renderWithForm();
     await expandPanel();
-    // Find the switch associated with "Allow All LiteLLM Keys" text
+    // Find the switch associated with "Allow All aiOS Keys" text
     // The first switch in the component is for allow_all_keys
     const switches = screen.getAllByRole("switch");
     const toggle = switches[0];
@@ -118,7 +118,7 @@ describe("MCPPermissionManagement", () => {
     });
 
     const user = await expandPanel();
-    // Find the switch associated with "Allow All LiteLLM Keys" text
+    // Find the switch associated with "Allow All aiOS Keys" text
     // The first switch in the component is for allow_all_keys
     const switches = screen.getAllByRole("switch");
     const toggle = switches[0];

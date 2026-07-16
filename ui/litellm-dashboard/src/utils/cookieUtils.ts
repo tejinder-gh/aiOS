@@ -7,7 +7,7 @@ import { clearAllMcpTokens } from "./mcpTokenStore";
 /**
  * Returns the cookie path for the UI.
  * Derives the path from window.location.pathname so it works when
- * LiteLLM is deployed behind a subpath (e.g. /myapp/ui instead of /ui).
+ * aiOS is deployed behind a subpath (e.g. /myapp/ui instead of /ui).
  * No imports from networking.tsx to avoid circular dependencies.
  */
 function getUiCookiePath(): string {

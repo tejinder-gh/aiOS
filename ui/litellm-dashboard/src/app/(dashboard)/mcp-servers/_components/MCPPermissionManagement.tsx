@@ -32,7 +32,7 @@ const MCPPermissionManagement: React.FC<MCPPermissionManagementProps> = ({
     watchedExtraHeaders.some((h) => typeof h === "string" && h.toLowerCase() === "authorization");
   // Two distinct, independent opt-ins:
   //   - delegate_auth_to_upstream: oauth2 servers only (PKCE passthrough —
-  //     bypass LiteLLM admission).
+  //     bypass aiOS admission).
   //   - oauth_passthrough: auth_type=none + Authorization in extra_headers
   //     (OAuth pass-through: proxy upstream oauth-protected-resource, emit 401
   //     challenges, propagate upstream 401/403).
@@ -121,7 +121,7 @@ const MCPPermissionManagement: React.FC<MCPPermissionManagementProps> = ({
           <div className="flex items-start justify-between gap-4">
             <div>
               <span className="text-sm font-medium text-gray-700 flex items-center">
-                Allow All LiteLLM Keys
+                Allow All aiOS Keys
                 <Tooltip title="When enabled, every API key can access this MCP server.">
                   <InfoCircleOutlined className="ml-2 text-blue-400 hover:text-blue-600 cursor-help" />
                 </Tooltip>
@@ -169,12 +169,12 @@ const MCPPermissionManagement: React.FC<MCPPermissionManagementProps> = ({
               <div>
                 <span className="text-sm font-medium text-gray-700 flex items-center">
                   Delegate auth to upstream (PKCE passthrough)
-                  <Tooltip title="When on, LiteLLM skips its own API key/SSO check for this server and lets the client complete PKCE directly with the upstream MCP server. Only honored when Auth Type is oauth2. No spend tracking or per-key rate limiting will run on this route.">
+                  <Tooltip title="When on, aiOS skips its own API key/SSO check for this server and lets the client complete PKCE directly with the upstream MCP server. Only honored when Auth Type is oauth2. No spend tracking or per-key rate limiting will run on this route.">
                     <InfoCircleOutlined className="ml-2 text-blue-400 hover:text-blue-600 cursor-help" />
                   </Tooltip>
                 </span>
                 <p className="text-sm text-gray-600 mt-1">
-                  Bypass LiteLLM auth so clients authenticate directly with the upstream OAuth MCP server.
+                  Bypass aiOS auth so clients authenticate directly with the upstream OAuth MCP server.
                 </p>
               </div>
               <Form.Item
@@ -219,7 +219,7 @@ const MCPPermissionManagement: React.FC<MCPPermissionManagementProps> = ({
               showIcon
               className="mb-2"
               message="Internal server with upstream OAuth delegation"
-              description="This MCP server is configured as internal-only but delegates auth to upstream. Anonymous users will be able to reach the upstream OAuth2 /authorize flow without a LiteLLM session. Ensure your upstream provider and network enforce access controls."
+              description="This MCP server is configured as internal-only but delegates auth to upstream. Anonymous users will be able to reach the upstream OAuth2 /authorize flow without an aiOS session. Ensure your upstream provider and network enforce access controls."
             />
           )}
 

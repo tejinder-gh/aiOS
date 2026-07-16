@@ -82,7 +82,7 @@ const CacheControlSettings: React.FC<CacheControlSettingsProps> = ({
                       name={[field.name, "role"]}
                       className="mb-0"
                       style={{ width: "180px" }}
-                      tooltip="LiteLLM will mark all messages of this role as cacheable"
+                      tooltip="aiOS will mark all messages of this role as cacheable"
                     >
                       <Select
                         placeholder="Select a role"

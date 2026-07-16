@@ -125,7 +125,7 @@ const RoutingGroupModal: React.FC<RoutingGroupModalProps> = ({
               },
             },
           ]}
-          extra="Use this name as the model in API calls — LiteLLM routes the request to one of the group's models."
+          extra="Use this name as the model in API calls — aiOS routes the request to one of the group's models."
         >
           <Input placeholder="fast-chat" disabled={mode === "edit"} />
         </Form.Item>

@@ -3,7 +3,7 @@ import { resolveLogoSrc } from "@/lib/assetPaths";
 export enum VectorStoreProviders {
   Bedrock = "Amazon Bedrock",
   S3Vectors = "Amazon S3 Vectors",
-  PgVector = "PostgreSQL pgvector (LiteLLM Connector)",
+  PgVector = "PostgreSQL pgvector (aiOS Connector)",
   VertexRagEngine = "Vertex AI RAG Engine",
   VertexAiSearch = "Vertex AI Search",
   OpenAI = "OpenAI",

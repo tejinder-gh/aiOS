@@ -23,7 +23,7 @@ const credentialsInfoPopoverContent = (
               Reusable
             </Title>
           </Flex>
-          <Text type="secondary">Credentials saved in LiteLLM that can be added to models repeatedly.</Text>
+          <Text type="secondary">Credentials saved in aiOS that can be added to models repeatedly.</Text>
         </Space>
       </Flex>
       <Divider size="small" />
@@ -101,7 +101,7 @@ export const columns = (
 
             <Space direction="vertical" size={2}>
               <Text type="secondary" style={{ fontSize: 11 }}>
-                LiteLLM Model Name
+                aiOS Model Name
               </Text>
               <Text
                 style={{ fontSize: 13 }}

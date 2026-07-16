@@ -180,7 +180,7 @@ const OrganizationsTable: React.FC<OrganizationsTableProps> = ({
     return (
       <div>
         <Text>
-          This is a LiteLLM Enterprise feature, and requires a valid key to use. Get a trial key{" "}
+          This is an enterprise feature, and requires a valid key to use. Get a trial key{" "}
           <a href="https://www.litellm.ai/#pricing" target="_blank" rel="noopener noreferrer">
             here
           </a>

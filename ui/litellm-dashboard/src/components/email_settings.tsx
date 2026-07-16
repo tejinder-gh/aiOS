@@ -58,7 +58,7 @@ const EmailSettings: React.FC<EmailSettingsProps> = ({ accessToken, premiumUser,
         <Text>
           <a href="https://docs.litellm.ai/docs/proxy/email" target="_blank" style={{ color: "blue" }}>
             {" "}
-            LiteLLM Docs: email alerts
+            aiOS Docs: email alerts
           </a>{" "}
           <br />
         </Text>

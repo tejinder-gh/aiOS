@@ -37,7 +37,7 @@ export const errorPatterns: ErrorPattern[] = [
     pattern: /500.*Internal Server Error/i,
     replacement: "Provider internal server error",
   },
-  // LiteLLM specific wrapped errors
+  // aiOS specific wrapped errors
   {
     pattern: /litellm\.AuthenticationError/i,
     replacement: "Authentication failed",

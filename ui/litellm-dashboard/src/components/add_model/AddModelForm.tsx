@@ -216,7 +216,7 @@ const AddModelForm: React.FC<AddModelFormProps> = ({
                   <Col span={10}></Col>
                   <Col span={10}>
                     <Text className="mb-5 mt-1">
-                      <strong>Optional</strong> - LiteLLM endpoint to use when health checking this model{" "}
+                      <strong>Optional</strong> - aiOS endpoint to use when health checking this model{" "}
                       <Link href="https://docs.litellm.ai/docs/proxy/health#health" target="_blank">
                         Learn more
                       </Link>

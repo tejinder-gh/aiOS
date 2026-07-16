@@ -170,15 +170,13 @@ describe("CreateMCPServer", () => {
       });
     });
 
-    it("should warn that LiteLLM auth is disabled when True Passthrough is selected", async () => {
+    it("should warn that aiOS auth is disabled when True Passthrough is selected", async () => {
       await selectHttpTransport();
 
-      await selectAntOption("Authentication", "True Passthrough (no LiteLLM auth)");
+      await selectAntOption("Authentication", "True Passthrough (no aiOS auth)");
 
       await waitFor(() => {
-        expect(
-          screen.getByText("True Passthrough disables LiteLLM authentication for this server"),
-        ).toBeInTheDocument();
+        expect(screen.getByText("True Passthrough disables aiOS authentication for this server")).toBeInTheDocument();
       });
     });
 
@@ -191,11 +189,11 @@ describe("CreateMCPServer", () => {
         expect(screen.getAllByText("OAuth Delegate (client-supplied upstream token)").length).toBeGreaterThan(0);
       });
       expect(
-        screen.queryByText("True Passthrough disables LiteLLM authentication for this server"),
+        screen.queryByText("True Passthrough disables aiOS authentication for this server"),
       ).not.toBeInTheDocument();
     });
 
-    it.each([["True Passthrough (no LiteLLM auth)"], ["OAuth Delegate (client-supplied upstream token)"]])(
+    it.each([["True Passthrough (no aiOS auth)"], ["OAuth Delegate (client-supplied upstream token)"]])(
       "should show the browser-only authorize section when %s is selected",
       async (optionLabel) => {
         await selectHttpTransport();
@@ -362,7 +360,7 @@ describe("CreateMCPServer", () => {
       await user.type(getServerNameInput(), "PT_Server");
       await user.type(screen.getByPlaceholderText("https://your-mcp-server.com"), "https://example.com/mcp");
 
-      await selectAntOption("Authentication", "True Passthrough (no LiteLLM auth)");
+      await selectAntOption("Authentication", "True Passthrough (no aiOS auth)");
 
       // Simulate the browser Authorize & Fetch flow handing back an upstream token.
       await waitFor(() => expect(oauthHook.onTokenReceived).toBeTruthy());
@@ -378,7 +376,7 @@ describe("CreateMCPServer", () => {
     });
 
     it.each([
-      ["true_passthrough", "True Passthrough (no LiteLLM auth)"],
+      ["true_passthrough", "True Passthrough (no aiOS auth)"],
       ["oauth_delegate", "OAuth Delegate (client-supplied upstream token)"],
     ])("persists only tool config on create for %s; the token stays browser-held", async (_authType, optionLabel) => {
       oauthHook.tokenResponse = { access_token: "upstream-tok", token_type: "Bearer" };
@@ -440,7 +438,7 @@ describe("CreateMCPServer", () => {
     });
 
     it.each([
-      ["true_passthrough", "True Passthrough (no LiteLLM auth)"],
+      ["true_passthrough", "True Passthrough (no aiOS auth)"],
       ["oauth_delegate", "OAuth Delegate (client-supplied upstream token)"],
     ])(
       "persists admin-entered OAuth app credentials on create for %s while the token stays browser-held",
@@ -513,7 +511,7 @@ describe("CreateMCPServer", () => {
       await user.type(getServerNameInput(), "CF_Keep_Server");
       await user.type(screen.getByPlaceholderText("https://your-mcp-server.com"), "https://example.com/mcp");
 
-      await selectAntOption("Authentication", "True Passthrough (no LiteLLM auth)");
+      await selectAntOption("Authentication", "True Passthrough (no aiOS auth)");
 
       await user.type(
         screen.getByPlaceholderText("Leave blank to use dynamic client registration"),
@@ -585,7 +583,7 @@ describe("CreateMCPServer", () => {
       // Switching into a client-forwarded mode changes the identity with auth_type in the changed
       // values, so the preserve carve-out must NOT apply: the minted material would otherwise ride
       // into a mode that now persists credentials onto the server row.
-      await selectAntOption("Authentication", "True Passthrough (no LiteLLM auth)");
+      await selectAntOption("Authentication", "True Passthrough (no aiOS auth)");
 
       const switchedServer = {
         server_id: "switched-server",
@@ -711,7 +709,7 @@ describe("CreateMCPServer", () => {
       await selectHttpTransport();
       fillText(getServerNameInput(), "CF_Switch_Keep");
       fillText(screen.getByPlaceholderText("https://your-mcp-server.com"), "https://example.com/mcp");
-      await selectAntOption("Authentication", "True Passthrough (no LiteLLM auth)");
+      await selectAntOption("Authentication", "True Passthrough (no aiOS auth)");
       fillText(screen.getByPlaceholderText("Leave blank to use dynamic client registration"), "app-id");
       fillText(screen.getByPlaceholderText("Leave blank for public clients / PKCE"), "app-secret");
 
@@ -748,7 +746,7 @@ describe("CreateMCPServer", () => {
       await selectHttpTransport();
       fillText(getServerNameInput(), "CF_Round");
       fillText(screen.getByPlaceholderText("https://your-mcp-server.com"), "https://example.com/mcp");
-      await selectAntOption("Authentication", "True Passthrough (no LiteLLM auth)");
+      await selectAntOption("Authentication", "True Passthrough (no aiOS auth)");
       fillText(screen.getByPlaceholderText("Leave blank to use dynamic client registration"), "app-id");
       fillText(screen.getByPlaceholderText("Leave blank for public clients / PKCE"), "app-secret");
 
@@ -758,7 +756,7 @@ describe("CreateMCPServer", () => {
       });
 
       await selectAntOption("Authentication", "OAuth");
-      await selectAntOption("Authentication", "True Passthrough (no LiteLLM auth)");
+      await selectAntOption("Authentication", "True Passthrough (no aiOS auth)");
 
       const cfRoundServer = {
         server_id: "cf-round",
@@ -787,7 +785,7 @@ describe("CreateMCPServer", () => {
       const user = userEvent.setup({ delay: null });
       await user.type(getServerNameInput(), "CF_Warn");
       await user.type(screen.getByPlaceholderText("https://your-mcp-server.com"), "https://example.com/mcp");
-      await selectAntOption("Authentication", "True Passthrough (no LiteLLM auth)");
+      await selectAntOption("Authentication", "True Passthrough (no aiOS auth)");
       await user.type(screen.getByPlaceholderText("Leave blank to use dynamic client registration"), "app-id");
 
       await waitFor(() => expect(oauthHook.onTokenReceived).toBeTruthy());
@@ -810,7 +808,7 @@ describe("CreateMCPServer", () => {
       const user = userEvent.setup({ delay: null });
       await user.type(getServerNameInput(), "CF_Keystroke");
       await user.type(screen.getByPlaceholderText("https://your-mcp-server.com"), "https://example.com/mcp");
-      await selectAntOption("Authentication", "True Passthrough (no LiteLLM auth)");
+      await selectAntOption("Authentication", "True Passthrough (no aiOS auth)");
       await user.type(screen.getByPlaceholderText("Leave blank to use dynamic client registration"), "app-id");
       await user.type(screen.getByPlaceholderText("Leave blank for public clients / PKCE"), "app-secret");
 
@@ -1186,7 +1184,7 @@ describe("CreateMCPServer", () => {
       oauthHook.reset.mockClear();
 
       // Switching the Authentication mode changes the OAuth identity, so the held token is discarded.
-      await selectAntOption("Authentication", "True Passthrough (no LiteLLM auth)");
+      await selectAntOption("Authentication", "True Passthrough (no aiOS auth)");
 
       await waitFor(() => expect(oauthHook.reset).toHaveBeenCalled());
     });
@@ -1991,7 +1989,7 @@ describe("CreateMCPServer dcr_bridge toggle", () => {
     return payload;
   }
 
-  it.each([["True Passthrough (no LiteLLM auth)"], ["OAuth Delegate (client-supplied upstream token)"]])(
+  it.each([["True Passthrough (no aiOS auth)"], ["OAuth Delegate (client-supplied upstream token)"]])(
     "renders the toggle default-checked when %s is selected",
     async (optionLabel) => {
       await setupHttpServerForm();
@@ -2020,7 +2018,7 @@ describe("CreateMCPServer dcr_bridge toggle", () => {
   it("renders the toggle between the OAuth client fields and the Authorize button", async () => {
     await setupHttpServerForm();
 
-    await selectAntOption("Authentication", "True Passthrough (no LiteLLM auth)");
+    await selectAntOption("Authentication", "True Passthrough (no aiOS auth)");
 
     await waitFor(() => {
       expect(getDcrToggle()).toBeInTheDocument();
@@ -2033,7 +2031,7 @@ describe("CreateMCPServer dcr_bridge toggle", () => {
   });
 
   it.each([
-    ["true_passthrough", "True Passthrough (no LiteLLM auth)"],
+    ["true_passthrough", "True Passthrough (no aiOS auth)"],
     ["oauth_delegate", "OAuth Delegate (client-supplied upstream token)"],
   ])("sends dcr_bridge: true by default on create for %s", async (authType, optionLabel) => {
     vi.mocked(networking.createMCPServer).mockResolvedValue({ ...createdServer, auth_type: authType });
@@ -2080,7 +2078,7 @@ describe("CreateMCPServer dcr_bridge toggle", () => {
   it("forces dcr_bridge: false when the auth type is switched away after toggling", async () => {
     vi.mocked(networking.createMCPServer).mockResolvedValue({ ...createdServer, auth_type: "none" });
     await setupHttpServerForm();
-    await selectAntOption("Authentication", "True Passthrough (no LiteLLM auth)");
+    await selectAntOption("Authentication", "True Passthrough (no aiOS auth)");
     await waitFor(() => {
       expect(getDcrToggle()).toBeInTheDocument();
     });
@@ -2100,7 +2098,7 @@ describe("CreateMCPServer dcr_bridge toggle", () => {
   it("preserves the toggle value when switching between the two client-forwarded modes", async () => {
     vi.mocked(networking.createMCPServer).mockResolvedValue({ ...createdServer, auth_type: "oauth_delegate" });
     await setupHttpServerForm();
-    await selectAntOption("Authentication", "True Passthrough (no LiteLLM auth)");
+    await selectAntOption("Authentication", "True Passthrough (no aiOS auth)");
     await waitFor(() => {
       expect(getDcrToggle()).toBeInTheDocument();
     });

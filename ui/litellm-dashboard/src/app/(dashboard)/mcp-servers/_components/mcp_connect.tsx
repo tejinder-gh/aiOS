@@ -209,11 +209,11 @@ const MCPConnect: React.FC<MCPConnectProps> = ({ currentServerAccessGroups = [] 
         <div className="flex items-center gap-3 mb-3">
           <Zap className="text-emerald-600" size={24} />
           <Title level={4} className="mb-0 text-emerald-900">
-            LiteLLM Proxy API Integration
+            aiOS Proxy API Integration
           </Title>
         </div>
         <Text className="text-emerald-700">
-          Connect to LiteLLM Proxy Responses API for seamless tool integration with multiple model providers
+          Connect to aiOS Proxy Responses API for seamless tool integration with multiple model providers
         </Text>
       </div>
 
@@ -221,11 +221,11 @@ const MCPConnect: React.FC<MCPConnectProps> = ({ currentServerAccessGroups = [] 
         <FeatureCard
           icon={<KeyIcon className="text-emerald-600" size={16} />}
           title="Virtual Key Setup"
-          description="Configure your LiteLLM Proxy Virtual Key for authentication"
+          description="Configure your aiOS Proxy Virtual Key for authentication"
         >
           <Space direction="vertical" size="middle" className="w-full">
             <div>
-              <Text>Get your Virtual Key from your LiteLLM Proxy dashboard or contact your administrator</Text>
+              <Text>Get your Virtual Key from your aiOS Proxy dashboard or contact your administrator</Text>
             </div>
             <CodeBlock title="Environment Variable" code='export LITELLM_API_KEY="sk-..."' copyKey="litellm-env" />
           </Space>
@@ -234,7 +234,7 @@ const MCPConnect: React.FC<MCPConnectProps> = ({ currentServerAccessGroups = [] 
         <FeatureCard
           icon={<ServerIcon className="text-emerald-600" size={16} />}
           title="MCP Server Information"
-          description="Connection details for your LiteLLM MCP server"
+          description="Connection details for your aiOS MCP server"
         >
           <CodeBlock title="Server URL" code={`${proxyBaseUrl}/mcp`} copyKey="litellm-server-url" />
         </FeatureCard>
@@ -242,7 +242,7 @@ const MCPConnect: React.FC<MCPConnectProps> = ({ currentServerAccessGroups = [] 
         <FeatureCard
           icon={<Code className="text-emerald-600" size={16} />}
           title="Implementation Example"
-          description="Complete cURL example for using the LiteLLM Proxy Responses API"
+          description="Complete cURL example for using the aiOS Proxy Responses API"
           serverName={currentServer}
           accessGroups={["dev-group"]}
         >
@@ -285,7 +285,7 @@ const MCPConnect: React.FC<MCPConnectProps> = ({ currentServerAccessGroups = [] 
           </Title>
         </div>
         <Text className="text-blue-700">
-          Connect OpenAI Responses API to your LiteLLM MCP server for seamless tool integration
+          Connect OpenAI Responses API to your aiOS MCP server for seamless tool integration
         </Text>
       </div>
 
@@ -317,7 +317,7 @@ const MCPConnect: React.FC<MCPConnectProps> = ({ currentServerAccessGroups = [] 
         <FeatureCard
           icon={<ServerIcon className="text-blue-600" size={16} />}
           title="MCP Server Information"
-          description="Connection details for your LiteLLM MCP server"
+          description="Connection details for your aiOS MCP server"
         >
           <CodeBlock title="Server URL" code={`${proxyBaseUrl}/mcp`} copyKey="openai-server-url" />
         </FeatureCard>
@@ -368,8 +368,8 @@ const MCPConnect: React.FC<MCPConnectProps> = ({ currentServerAccessGroups = [] 
           </Title>
         </div>
         <Text className="text-purple-700">
-          Use tools directly from Cursor IDE with LiteLLM MCP. Enable your AI assistant to perform real-world tasks
-          without leaving your coding environment.
+          Use tools directly from Cursor IDE with aiOS MCP. Enable your AI assistant to perform real-world tasks without
+          leaving your coding environment.
         </Text>
       </div>
 
@@ -434,7 +434,7 @@ const MCPConnect: React.FC<MCPConnectProps> = ({ currentServerAccessGroups = [] 
           </Title>
         </div>
         <Text className="text-green-700">
-          Connect to LiteLLM MCP using HTTP transport. Compatible with any MCP client that supports HTTP streaming.
+          Connect to aiOS MCP using HTTP transport. Compatible with any MCP client that supports HTTP streaming.
         </Text>
       </div>
 
@@ -483,8 +483,8 @@ const MCPConnect: React.FC<MCPConnectProps> = ({ currentServerAccessGroups = [] 
         <div>
           <TremorTitle className="text-3xl font-bold text-gray-900 mb-3">Connect to your MCP client</TremorTitle>
           <TremorText className="text-lg text-gray-600">
-            Use tools directly from any MCP client with LiteLLM MCP. Enable your AI assistant to perform real-world
-            tasks through a simple, secure connection.
+            Use tools directly from any MCP client with aiOS MCP. Enable your AI assistant to perform real-world tasks
+            through a simple, secure connection.
           </TremorText>
         </div>
 
@@ -500,7 +500,7 @@ const MCPConnect: React.FC<MCPConnectProps> = ({ currentServerAccessGroups = [] 
               <Tab className="px-6 py-3 rounded-md transition-all duration-200">
                 <span className="flex items-center gap-2 font-medium">
                   <Zap size={18} />
-                  LiteLLM Proxy
+                  aiOS Proxy
                 </span>
               </Tab>
               <Tab className="px-6 py-3 rounded-md transition-all duration-200">

@@ -17,7 +17,7 @@ vi.mock("./networking", async (importOriginal) => {
     ...actual,
     modelHubPublicModelsCall: vi.fn().mockResolvedValue([]),
     getPublicModelHubInfo: vi.fn().mockResolvedValue({
-      docs_title: "LiteLLM Gateway",
+      docs_title: "aiOS Gateway",
       custom_docs_description: null,
       litellm_version: "1.0.0",
       useful_links: {},

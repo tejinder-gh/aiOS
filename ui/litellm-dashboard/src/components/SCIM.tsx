@@ -75,7 +75,7 @@ const SCIMConfig: React.FC<SCIMConfigProps> = ({ accessToken, userID, proxySetti
         </div>
         <Text className="text-gray-600">
           System for Cross-domain Identity Management (SCIM) allows you to automatically provision and manage users and
-          groups in LiteLLM.
+          groups in aiOS.
         </Text>
 
         <Divider />

@@ -175,7 +175,7 @@ export default function ServicesPanel({ accessToken }: ServicesPanelProps) {
           <Title level={4} className="!mb-0">
             Services
           </Title>
-          <Text type="secondary">Start, stop and monitor the local services your LiteLLM hub depends on.</Text>
+          <Text type="secondary">Start, stop and monitor the local services your aiOS hub depends on.</Text>
         </div>
         <div className="flex gap-2">
           <Button type="primary" onClick={() => setAddOpen(true)} disabled={!accessToken}>

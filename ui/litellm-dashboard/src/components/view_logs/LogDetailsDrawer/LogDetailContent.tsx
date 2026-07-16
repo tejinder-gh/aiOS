@@ -345,7 +345,7 @@ function MetricsSection({ logEntry, metadata }: { logEntry: LogEntry; metadata: 
           )}
 
           {metadata?.litellm_overhead_time_ms !== undefined && metadata.litellm_overhead_time_ms !== null && (
-            <Descriptions.Item label="LiteLLM Overhead">
+            <Descriptions.Item label="aiOS Overhead">
               {metadata.litellm_overhead_time_ms.toFixed(2)} ms
             </Descriptions.Item>
           )}

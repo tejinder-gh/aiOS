@@ -248,7 +248,7 @@ const AgentCardDiscovery: React.FC<AgentCardDiscoveryProps> = ({
       <div className="flex items-center gap-2 mb-2">
         <LinkOutlined className="text-indigo-600" />
         <Text strong>Discover from agent URL</Text>
-        <Tooltip title="LiteLLM will fetch /.well-known/agent-card.json from this URL and let you pick which skills and capabilities to expose through the proxy.">
+        <Tooltip title="aiOS will fetch /.well-known/agent-card.json from this URL and let you pick which skills and capabilities to expose through the proxy.">
           <InfoCircleOutlined className="text-gray-400" />
         </Tooltip>
       </div>
@@ -405,7 +405,7 @@ const AgentCardDiscovery: React.FC<AgentCardDiscoveryProps> = ({
               header={
                 <Space>
                   <Text strong>Capabilities</Text>
-                  <Tooltip title="Only capabilities LiteLLM can faithfully proxy today are listed. Others (push notifications, extensions) are coming soon.">
+                  <Tooltip title="Only capabilities aiOS can faithfully proxy today are listed. Others (push notifications, extensions) are coming soon.">
                     <InfoCircleOutlined className="text-gray-400" />
                   </Tooltip>
                 </Space>

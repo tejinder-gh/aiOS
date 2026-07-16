@@ -268,7 +268,7 @@ const AdvancedSettings: React.FC<AdvancedSettingsProps> = ({
               onCacheControlChange={handleCacheControlChange}
             />
             <Form.Item
-              label="LiteLLM Params"
+              label="aiOS Params"
               name="litellm_extra_params"
               tooltip="Optional litellm params used for making a litellm.completion() call."
               className="mb-4 mt-4"

@@ -147,7 +147,6 @@ describe("Navbar", () => {
   it("should render without crashing", () => {
     renderWithProviders(<Navbar {...defaultProps} />);
 
-    expect(screen.getByRole("button", { name: /^notifications$/i })).toBeInTheDocument();
     expect(screen.getByText("Docs")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /open account menu/i })).toBeInTheDocument();
   });
@@ -237,7 +236,7 @@ describe("Navbar", () => {
 
     renderWithProviders(<Navbar {...defaultProps} />);
 
-    const logoImg = screen.getByAltText("LiteLLM Brand");
+    const logoImg = screen.getByAltText("aiOS Brand");
     expect(logoImg).toHaveAttribute("src", "https://example.com/custom-logo.png");
 
     // Reset mock

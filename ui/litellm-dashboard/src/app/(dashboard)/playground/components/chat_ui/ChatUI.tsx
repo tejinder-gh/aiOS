@@ -1940,7 +1940,7 @@ const ChatUI: React.FC<ChatUIProps> = ({
                         <div className="flex flex-wrap gap-2">
                           {[
                             "Generate sample sales data CSV and create a chart",
-                            "Create a PNG bar chart comparing AI gateway providers including LiteLLM",
+                            "Create a PNG bar chart comparing AI gateway providers including aiOS",
                             "Generate a CSV of LLM pricing data and visualize it as a line chart",
                           ].map((prompt, idx) => (
                             <button
