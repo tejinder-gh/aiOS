@@ -163,3 +163,38 @@ def test_docs_rejects_working_dir_outside_root(monkeypatch):
     resp = _client().get("/services/svc/docs")
     assert resp.status_code == 404
     assert "outside" in resp.json()["detail"].lower()
+
+
+def test_register_rejects_arbitrary_argv_in_hosted_mode(monkeypatch):
+    monkeypatch.delenv("LITELLM_SERVICE_LOCAL_MODE", raising=False)
+    monkeypatch.setattr(ep, "_active_specs", lambda: ())
+    monkeypatch.setattr(ep, "_require_prisma", lambda: object())
+    payload = {**_spec_payload("evil"), "start_cmd": ["/bin/sh", "-c", "rm -rf /"], "stop_cmd": ["/bin/sh", "-c", ":"]}
+    resp = _client().post("/services/register", json={"spec": payload, "generate_proxy_key": False})
+    assert resp.status_code == 400
+    assert "hosted mode" in resp.json()["detail"].lower()
+
+
+def test_register_allows_arbitrary_argv_in_local_mode(monkeypatch):
+    monkeypatch.setenv("LITELLM_SERVICE_LOCAL_MODE", "true")
+
+    async def _fake_persist(prisma, services):
+        pass
+
+    async def _fake_probe(spec):
+        return "stopped"
+
+    monkeypatch.setattr(ep, "_active_specs", lambda: ())
+    monkeypatch.setattr(ep, "_require_prisma", lambda: object())
+    monkeypatch.setattr(ep, "_proxy_config_or_raise", lambda: object())
+    monkeypatch.setattr(ep, "persist_services", _fake_persist)
+    monkeypatch.setattr(ep, "apply_in_memory", lambda cfg, services: None)
+    monkeypatch.setattr(ep, "probe_status", _fake_probe)
+    payload = {
+        **_spec_payload("custom"),
+        "start_cmd": ["/usr/local/bin/mytool", "run"],
+        "stop_cmd": ["/usr/local/bin/mytool", "stop"],
+    }
+    resp = _client().post("/services/register", json={"spec": payload, "generate_proxy_key": False})
+    assert resp.status_code == 200
+    assert resp.json()["service"]["name"] == "custom"

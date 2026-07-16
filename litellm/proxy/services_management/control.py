@@ -32,6 +32,9 @@ _COMMAND_TIMEOUT_SECONDS = 30.0
 
 _TRUTHY = frozenset({"1", "true", "yes", "on"})
 
+_LOCAL_MODE_ENV_VAR = "LITELLM_SERVICE_LOCAL_MODE"
+ALLOWED_EXECUTABLES: frozenset[str] = frozenset({"brew", "docker", "npm", "npx", "echo", "pkill"})
+
 _SUCCESS_STATUS: dict[ServiceAction, ServiceStatus] = {
     "start": "starting",
     "restart": "starting",
@@ -41,6 +44,21 @@ _SUCCESS_STATUS: dict[ServiceAction, ServiceStatus] = {
 
 def control_enabled() -> bool:
     return os.getenv(_ENABLE_ENV_VAR, "").strip().lower() in _TRUTHY
+
+
+def local_mode() -> bool:
+    """True on a trusted local host, where register may accept arbitrary command argv."""
+    return os.getenv(_LOCAL_MODE_ENV_VAR, "").strip().lower() in _TRUTHY
+
+
+def _spec_executables(spec: ManagedServiceSpec) -> frozenset[str]:
+    argvs = (spec.start_cmd, spec.stop_cmd, spec.restart_cmd, *(command.argv for command in spec.commands))
+    return frozenset(argv[0] for argv in argvs if argv)
+
+
+def disallowed_executables(spec: ManagedServiceSpec) -> tuple[str, ...]:
+    """Executables in ``spec`` that are not on the hosted-mode allowlist."""
+    return tuple(sorted(exe for exe in _spec_executables(spec) if exe not in ALLOWED_EXECUTABLES))
 
 
 def _argv_for(spec: ManagedServiceSpec, action: ServiceAction) -> tuple[str, ...] | None:

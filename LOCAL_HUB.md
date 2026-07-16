@@ -43,6 +43,7 @@ Start the proxy (foreground so you see logs):
 ```bash
 set -a; . ./.env; set +a
 export LITELLM_ENABLE_SERVICE_CONTROL=true
+export LITELLM_SERVICE_LOCAL_MODE=true
 uv run python litellm/proxy/proxy_cli.py --config local_hub_config.yaml --use_v2_migration_resolver 2>&1 | tee litellm.log
 ```
 
@@ -60,6 +61,8 @@ Control is gated three ways, any one false makes it read-only:
 1. `LITELLM_ENABLE_SERVICE_CONTROL=true` (off by default)
 2. caller is a proxy admin
 3. target is an allowlisted service; only its fixed argv runs (no shell)
+
+Registering a service with arbitrary command argv requires `LITELLM_SERVICE_LOCAL_MODE=true`, which marks this as a trusted local host. Without it (the hosted default), register only accepts commands whose executable is on a small allowlist (brew, docker, npm, npx, echo, pkill), so an admin on a hosted instance cannot register a service that runs arbitrary programs.
 
 Add more services (vLLM, LM Studio, ...) without code changes by adding a `service_management.services` block to `local_hub_config.yaml`:
 

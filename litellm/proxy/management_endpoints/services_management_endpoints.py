@@ -27,7 +27,14 @@ from fastapi import APIRouter, Depends, HTTPException, Path, Request
 
 from litellm.proxy._types import CommonProxyErrors, LitellmUserRoles, UserAPIKeyAuth
 from litellm.proxy.auth.user_api_key_auth import user_api_key_auth
-from litellm.proxy.services_management.control import control_enabled, run_action, run_command
+from litellm.proxy.services_management.control import (
+    ALLOWED_EXECUTABLES,
+    control_enabled,
+    disallowed_executables,
+    local_mode,
+    run_action,
+    run_command,
+)
 from litellm.proxy.services_management.health import probe_status
 from litellm.proxy.services_management.importer import ImportErr, build_preview, is_within_root
 from litellm.proxy.services_management.ports import (
@@ -233,6 +240,18 @@ async def register_service(
 
     if spec.working_dir is not None and not is_within_root(spec.working_dir, _import_root()):
         raise HTTPException(status_code=400, detail="working_dir must be inside the allowed import root.")
+
+    if not local_mode():
+        blocked = disallowed_executables(spec)
+        if blocked:
+            raise HTTPException(
+                status_code=400,
+                detail=(
+                    f"Executables not allowed in hosted mode: {', '.join(blocked)}. "
+                    f"Allowed: {', '.join(sorted(ALLOWED_EXECUTABLES))}. "
+                    "Set LITELLM_SERVICE_LOCAL_MODE=true only on a trusted local host to allow arbitrary commands."
+                ),
+            )
 
     if spec.health_port is not None:
         conflicts = port_conflicts(spec.health_port, specs, exclude_name=spec.name)
