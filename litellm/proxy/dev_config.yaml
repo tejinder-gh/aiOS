@@ -4,6 +4,10 @@ model_list:
     litellm_params:
       model: anthropic/claude-haiku-4-5
       api_key: os.environ/ANTHROPIC_API_KEY
+    model_info:
+      adaptive_router_preferences:
+        quality_tier: 2
+        strengths: ["general", "factual_lookup"]
   - model_name: anthropic-sonnet-4-5
     litellm_params:
       model: anthropic/claude-sonnet-4-5
@@ -28,10 +32,18 @@ model_list:
     litellm_params:
       model: anthropic/claude-opus-4-8
       api_key: os.environ/ANTHROPIC_API_KEY
+    model_info:
+      adaptive_router_preferences:
+        quality_tier: 3
+        strengths: ["analytical_reasoning", "code_generation"]
   - model_name: anthropic-sonnet-5
     litellm_params:
       model: anthropic/claude-sonnet-5
       api_key: os.environ/ANTHROPIC_API_KEY
+    model_info:
+      adaptive_router_preferences:
+        quality_tier: 3
+        strengths: ["general", "code_generation"]
 
   # ---------- Embeddings (for complexity router semantic keyword matching) ----------
   - model_name: voyage-4-large
@@ -196,6 +208,10 @@ model_list:
     litellm_params:
       model: openai/gpt-4o-mini
       api_key: os.environ/OPENAI_API_KEY
+    model_info:
+      adaptive_router_preferences:
+        quality_tier: 2
+        strengths: ["general", "factual_lookup"]
 
 general_settings:
   master_key: os.environ/LITELLM_MASTER_KEY
@@ -218,8 +234,14 @@ router_settings:
   redis_port: os.environ/REDIS_PORT
   num_retries: 3
   fallbacks: 
-    - {"anthropic-haiku-4-5": ["bedrock-invoke-haiku-4-5", "vertex-haiku-4-5"]}
-    - {"gpt-4o-mini": ["devstral"]}
+    - {"anthropic-opus-4-8": ["anthropic-sonnet-5", "gpt-4o-mini", "dolphin3"]}
+    - {"anthropic-opus-4-7": ["anthropic-sonnet-5", "gpt-4o-mini", "dolphin3"]}
+    - {"anthropic-opus-4-6": ["anthropic-sonnet-4-6", "gpt-4o-mini", "dolphin3"]}
+    - {"anthropic-sonnet-5": ["anthropic-haiku-4-5", "gpt-4o-mini", "dolphin3"]}
+    - {"anthropic-sonnet-4-6": ["anthropic-haiku-4-5", "gpt-4o-mini", "dolphin3"]}
+    - {"anthropic-haiku-4-5": ["gpt-4o-mini", "dolphin3"]}
+    - {"gpt-5.5": ["anthropic-sonnet-5", "gpt-4o-mini", "dolphin3"]}
+    - {"gpt-4o-mini": ["anthropic-haiku-4-5", "dolphin3"]}
 
 litellm_settings:
   drop_params: True

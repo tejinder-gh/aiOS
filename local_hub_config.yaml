@@ -14,6 +14,10 @@ model_list:
     litellm_params:
       model: ollama_chat/devstral-small-2:latest
       api_base: http://localhost:11434
+    model_info:
+      adaptive_router_preferences:
+        quality_tier: 2
+        strengths: ["code_generation"]
   - model_name: deepseek-coder
     litellm_params:
       model: ollama_chat/deepseek-coder:latest
@@ -22,6 +26,20 @@ model_list:
     litellm_params:
       model: ollama_chat/dolphin3:latest
       api_base: http://localhost:11434
+    model_info:
+      adaptive_router_preferences:
+        quality_tier: 1
+        strengths: ["general"]
+
+  - model_name: smart-router
+    litellm_params:
+      model: auto_router/adaptive_router
+      adaptive_router_default_model: anthropic-haiku-4-5
+      adaptive_router_config:
+        available_models: ["anthropic-opus-4-8", "anthropic-sonnet-5", "anthropic-haiku-4-5", "gpt-4o-mini", "devstral", "dolphin3"]
+        weights:
+          quality: 0.6
+          cost: 0.4
 
   # ---------- Wildcard: any model you `ollama pull` later works instantly ----------
   # Call it as  ollama/<name>  e.g. ollama/llama3.2, ollama/qwen2.5-coder
