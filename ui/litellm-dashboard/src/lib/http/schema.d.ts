@@ -12258,6 +12258,166 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/services/import/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Import Preview
+         * @description Propose a service spec by reading the config in a project directory.
+         */
+        post: operations["import_preview_services_import_preview_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/services/list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Services
+         * @description Return the status of every registered local service.
+         */
+        get: operations["list_services_services_list_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/services/ports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Ports
+         * @description Return the host port claimed by each registered service.
+         */
+        get: operations["list_ports_services_ports_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/services/register": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Register Service
+         * @description Persist a new (or updated) service, optionally minting a proxy-routing key.
+         */
+        post: operations["register_service_services_register_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/services/{name}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Unregister Service
+         * @description Remove a service from the registry and return the updated list.
+         */
+        delete: operations["unregister_service_services__name__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/services/{name}/action": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Service Action
+         * @description Start, stop or restart one registered service.
+         */
+        post: operations["service_action_services__name__action_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/services/{name}/command/{command_name}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Service Command
+         * @description Run one of a service's registered custom commands.
+         */
+        post: operations["service_command_services__name__command__command_name__post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/services/{name}/docs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Service Docs
+         * @description Return the service's README/docs, read from its working directory.
+         */
+        get: operations["service_docs_services__name__docs_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/settings": {
         parameters: {
             query?: never;
@@ -22776,6 +22936,15 @@ export interface components {
             /** Api Base */
             api_base: string;
         };
+        /** ConnectionInfo */
+        ConnectionInfo: {
+            /** Api Key */
+            api_key: string;
+            /** Base Url */
+            base_url: string;
+            /** Env Snippet */
+            env_snippet: string;
+        };
         /**
          * ContentFilterAction
          * @description Action to take when content filter detects a match
@@ -23427,6 +23596,17 @@ export interface components {
             model_name: string;
         } & {
             [key: string]: unknown;
+        };
+        /** DetectedCommand */
+        DetectedCommand: {
+            /** Argv */
+            argv: string[];
+            /** Description */
+            description: string;
+            /** Display Name */
+            display_name: string;
+            /** Name */
+            name: string;
         };
         /**
          * DistinctTagResponse
@@ -24422,6 +24602,54 @@ export interface components {
             url: string;
         } & {
             [key: string]: unknown;
+        };
+        /**
+         * ImportPreview
+         * @description A proposed service spec derived from a directory, plus conflict info.
+         *
+         *     The UI prefills a form from this and always lets the operator edit the port
+         *     before registering; ``suggested_port`` is the next free port when
+         *     ``detected_port`` is already claimed.
+         */
+        ImportPreview: {
+            /** Commands */
+            commands: components["schemas"]["DetectedCommand"][];
+            /** Conflicts */
+            conflicts: string[];
+            /** Description */
+            description: string;
+            /** Detected Port */
+            detected_port: number;
+            /** Display Name */
+            display_name: string;
+            /** Docs Path */
+            docs_path: string | null;
+            /** Health Host */
+            health_host: string;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "brew" | "docker_compose" | "command";
+            /** Name */
+            name: string;
+            /** Restart Cmd */
+            restart_cmd: string[] | null;
+            /** Start Cmd */
+            start_cmd: string[] | null;
+            /** Stop Cmd */
+            stop_cmd: string[] | null;
+            /** Suggested Port */
+            suggested_port: number;
+            /** Web Url */
+            web_url: string | null;
+            /** Working Dir */
+            working_dir: string;
+        };
+        /** ImportRequest */
+        ImportRequest: {
+            /** Path */
+            path: string;
         };
         /** IndexCreateLiteLLMParams */
         IndexCreateLiteLLMParams: {
@@ -27400,6 +27628,71 @@ export interface components {
             /** Mcp Server Ids */
             mcp_server_ids: string[];
         };
+        /**
+         * ManagedServiceSpec
+         * @description Immutable description of one controllable local service.
+         *
+         *     ``health_host``/``health_port`` are the source of truth for status (a TCP
+         *     connect), independent of how the service was started. The command tuples are
+         *     the only thing ever executed, so control can never run an arbitrary string.
+         */
+        ManagedServiceSpec: {
+            /**
+             * Commands
+             * @default []
+             */
+            commands: components["schemas"]["ServiceCommand"][];
+            /**
+             * Dashboard Only
+             * @default false
+             */
+            dashboard_only: boolean;
+            /**
+             * Description
+             * @default
+             */
+            description: string;
+            /** Display Name */
+            display_name: string;
+            /** Docs Path */
+            docs_path?: string | null;
+            /** Docs Url */
+            docs_url?: string | null;
+            /**
+             * Health Host
+             * @default localhost
+             */
+            health_host: string;
+            /** Health Port */
+            health_port?: number | null;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "brew" | "docker_compose" | "command";
+            /**
+             * Name
+             * @description Stable id used in URLs, e.g. 'ollama'
+             */
+            name: string;
+            /**
+             * Prevent Stop
+             * @default false
+             */
+            prevent_stop: boolean;
+            /** Proxy Key Alias */
+            proxy_key_alias?: string | null;
+            /** Restart Cmd */
+            restart_cmd?: string[] | null;
+            /** Start Cmd */
+            start_cmd?: string[] | null;
+            /** Stop Cmd */
+            stop_cmd?: string[] | null;
+            /** Web Url */
+            web_url?: string | null;
+            /** Working Dir */
+            working_dir?: string | null;
+        };
         /** Member */
         Member: {
             /**
@@ -29569,6 +29862,18 @@ export interface components {
              */
             version_status: string;
         };
+        /** PortAllocation */
+        PortAllocation: {
+            /** Name */
+            name: string;
+            /** Port */
+            port: number;
+        };
+        /** PortsResponse */
+        PortsResponse: {
+            /** Allocations */
+            allocations: components["schemas"]["PortAllocation"][];
+        };
         /** Prompt */
         Prompt: {
             litellm_params: components["schemas"]["PromptLiteLLMParams"];
@@ -30197,6 +30502,20 @@ export interface components {
              */
             version: string | null;
         };
+        /** RegisterServiceRequest */
+        RegisterServiceRequest: {
+            /**
+             * Generate Proxy Key
+             * @default false
+             */
+            generate_proxy_key: boolean;
+            spec: components["schemas"]["ManagedServiceSpec"];
+        };
+        /** RegisterServiceResponse */
+        RegisterServiceResponse: {
+            connection_info: components["schemas"]["ConnectionInfo"] | null;
+            service: components["schemas"]["ServiceState"];
+        };
         /** RejectMCPServerRequest */
         RejectMCPServerRequest: {
             /** Review Notes */
@@ -30787,6 +31106,138 @@ export interface components {
             search_provider: string;
             /** Timeout */
             timeout?: number | null;
+        };
+        /** ServiceActionRequest */
+        ServiceActionRequest: {
+            /**
+             * Action
+             * @enum {string}
+             */
+            action: "start" | "stop" | "restart";
+        };
+        /** ServiceActionResult */
+        ServiceActionResult: {
+            /**
+             * Action
+             * @enum {string}
+             */
+            action: "start" | "stop" | "restart";
+            /** Message */
+            message: string;
+            /** Name */
+            name: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "running" | "starting" | "stopped" | "unknown";
+            /** Success */
+            success: boolean;
+        };
+        /**
+         * ServiceCommand
+         * @description One extra capability exposed on a service's detail page.
+         *
+         *     Like the lifecycle commands, ``argv`` is the only thing ever executed, so a
+         *     custom command can never run an arbitrary interpolated string.
+         */
+        ServiceCommand: {
+            /** Argv */
+            argv: string[];
+            /**
+             * Description
+             * @default
+             */
+            description: string;
+            /** Display Name */
+            display_name: string;
+            /**
+             * Name
+             * @description Stable id used in URLs, e.g. 'seed-db'
+             */
+            name: string;
+        };
+        /**
+         * ServiceCommandInfo
+         * @description A custom command as advertised to the dashboard (argv omitted).
+         */
+        ServiceCommandInfo: {
+            /** Description */
+            description: string;
+            /** Display Name */
+            display_name: string;
+            /** Name */
+            name: string;
+        };
+        /** ServiceCommandResult */
+        ServiceCommandResult: {
+            /** Command */
+            command: string;
+            /** Message */
+            message: string;
+            /** Name */
+            name: string;
+            /** Success */
+            success: boolean;
+        };
+        /** ServiceDocsResponse */
+        ServiceDocsResponse: {
+            /** Markdown */
+            markdown: string;
+            /** Source Path */
+            source_path: string;
+        };
+        /** ServiceListResponse */
+        ServiceListResponse: {
+            /** Control Enabled */
+            control_enabled: boolean;
+            /** Services */
+            services: components["schemas"]["ServiceState"][];
+        };
+        /**
+         * ServiceState
+         * @description Status of one service as returned to the dashboard.
+         */
+        ServiceState: {
+            /**
+             * Commands
+             * @default []
+             */
+            commands: components["schemas"]["ServiceCommandInfo"][];
+            /** Control Enabled */
+            control_enabled: boolean;
+            /** Dashboard Only */
+            dashboard_only: boolean;
+            /** Description */
+            description: string;
+            /** Detail */
+            detail: string;
+            /** Display Name */
+            display_name: string;
+            /** Docs Url */
+            docs_url: string | null;
+            /** Endpoint */
+            endpoint: string;
+            /** Has Docs */
+            has_docs: boolean;
+            /** Healthy */
+            healthy: boolean;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "brew" | "docker_compose" | "command";
+            /** Name */
+            name: string;
+            /** Prevent Stop */
+            prevent_stop: boolean;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "running" | "starting" | "stopped" | "unknown";
+            /** Web Url */
+            web_url: string | null;
         };
         /**
          * Skill
@@ -48805,6 +49256,246 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    import_preview_services_import_preview_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ImportRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ImportPreview"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_services_services_list_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceListResponse"];
+                };
+            };
+        };
+    };
+    list_ports_services_ports_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PortsResponse"];
+                };
+            };
+        };
+    };
+    register_service_services_register_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegisterServiceRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RegisterServiceResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    unregister_service_services__name__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Registered service name */
+                name: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceListResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    service_action_services__name__action_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Registered service name, e.g. 'ollama' */
+                name: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceActionRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceActionResult"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    service_command_services__name__command__command_name__post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Registered service name */
+                name: string;
+                /** @description Registered command name */
+                command_name: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceCommandResult"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    service_docs_services__name__docs_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Registered service name */
+                name: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceDocsResponse"];
                 };
             };
             /** @description Validation Error */

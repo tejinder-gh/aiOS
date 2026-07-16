@@ -1,29 +1,23 @@
-export type ServiceKind = "brew" | "docker_compose" | "command";
-export type ServiceStatus = "running" | "stopped" | "unknown";
-export type ServiceAction = "start" | "stop" | "restart";
+import type { components } from "@/lib/http/schema";
 
-export interface ServiceState {
-  name: string;
-  display_name: string;
-  description: string;
-  docs_url: string | null;
-  kind: ServiceKind;
-  status: ServiceStatus;
-  healthy: boolean;
-  endpoint: string;
-  detail: string;
-  control_enabled: boolean;
-}
+type Schemas = components["schemas"];
 
-export interface ServiceListResponse {
-  control_enabled: boolean;
-  services: ServiceState[];
-}
-
-export interface ServiceActionResult {
-  name: string;
-  action: ServiceAction;
-  success: boolean;
-  message: string;
-  status: ServiceStatus;
-}
+export type ServiceState = Schemas["ServiceState"];
+export type ServiceKind = ServiceState["kind"];
+export type ServiceStatus = ServiceState["status"];
+export type ServiceListResponse = Schemas["ServiceListResponse"];
+export type ServiceActionRequest = Schemas["ServiceActionRequest"];
+export type ServiceAction = ServiceActionRequest["action"];
+export type ServiceActionResult = Schemas["ServiceActionResult"];
+export type ServiceCommandResult = Schemas["ServiceCommandResult"];
+export type ServiceCommandInfo = Schemas["ServiceCommandInfo"];
+export type PortsResponse = Schemas["PortsResponse"];
+export type PortAllocation = Schemas["PortAllocation"];
+export type ImportPreview = Schemas["ImportPreview"];
+export type ImportRequest = Schemas["ImportRequest"];
+export type DetectedCommand = Schemas["DetectedCommand"];
+export type ManagedServiceSpec = Schemas["ManagedServiceSpec"];
+export type RegisterServiceRequest = Schemas["RegisterServiceRequest"];
+export type RegisterServiceResponse = Schemas["RegisterServiceResponse"];
+export type ConnectionInfo = Schemas["ConnectionInfo"];
+export type ServiceDocsResponse = Schemas["ServiceDocsResponse"];

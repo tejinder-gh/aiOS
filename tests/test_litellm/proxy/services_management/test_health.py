@@ -38,3 +38,9 @@ async def test_stopped_when_nothing_listening():
     await server.wait_closed()
 
     assert await probe_status(_spec_for_port(port)) == "stopped"
+
+
+@pytest.mark.asyncio
+async def test_unknown_when_no_health_port():
+    spec = ManagedServiceSpec(name="np", display_name="NP", kind="command", dashboard_only=True)
+    assert await probe_status(spec) == "unknown"

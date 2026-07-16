@@ -5827,6 +5827,7 @@ class ProxyConfig:
             "router_settings",
             "litellm_settings",
             "environment_variables",
+            "service_management",
         ],
         db_param_value: Any,
     ) -> dict:
@@ -5918,6 +5919,7 @@ class ProxyConfig:
             "router_settings",
             "litellm_settings",
             "environment_variables",
+            "service_management",
         ]
         for k in keys:
             _tasks.append(get_config_param(prisma_client, k))
