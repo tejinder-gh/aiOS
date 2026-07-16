@@ -1,6 +1,6 @@
-# LiteLLM Architecture - LiteLLM SDK + AI Gateway
+# Engine Architecture: LiteLLM SDK + AI Gateway
 
-This document helps contributors understand where to make changes in LiteLLM.
+This is the reference for the aiOS engine layer, a vendored fork of LiteLLM under `litellm/`. It explains where to make changes in the gateway and the SDK. For the aiOS layer on top (the services control plane, the prompt / skill / tool catalogs, and the interaction store) see [AIOS.md](./AIOS.md) and [docs/aios/roadmap.md](./docs/aios/roadmap.md).
 
 ---
 

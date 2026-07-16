@@ -1,18 +1,12 @@
 <h1 align="center">
-        🚅 LiteLLM
+        aiOS
     </h1>
     <p align="center">
-        <p align="center">LiteLLM AI Gateway
-        </p>
-        <p align="center">Open Source AI Gateway for 100+ LLMs. Self-hosted. Enterprise-ready. Call any LLM in OpenAI format.</p>
-        <p align="center">
-        <a href="https://render.com/deploy?repo=https://github.com/BerriAI/litellm" target="_blank" rel="nofollow"><img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render" height="40"></a>
-        <a href="https://railway.com/deploy/RhvhdC?referralCode=7mRv9K&utm_medium=integration&utm_source=template&utm_campaign=generic"><img src="https://railway.com/button.svg" alt="Deploy on Railway" height="40"></a>
-        <a href="https://console.aws.amazon.com/cloudshell/home" target="_blank" rel="nofollow"><img src="./.github/deploy-on-aws.png" alt="Deploy on AWS" height="40"></a>
-        <a href="https://ssh.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FBerriAI%2Flitellm&cloudshell_workspace=terraform%2Flitellm%2Fgcp%2Fexamples%2Fdefault&cloudshell_tutorial=TUTORIAL.md&cloudshell_image=gcr.io/ds-artifacts-cloudshell/deploystack_custom_image&shellonly=true" target="_blank" rel="nofollow"><img src="./.github/deploy-on-gcp.png" alt="Deploy on GCP" height="40"></a>
-        </p>
+        <p align="center">One control plane for every LLM interaction</p>
+        <p align="center">A self-hosted operating system for AI. Every app, agent, and tool talks to aiOS instead of calling providers directly, so routing, logging, cost, access, and the reusable building blocks of AI work live in one place, configured once and used anywhere.</p>
     </p>
-<h4 align="center"><a href="https://docs.litellm.ai/docs/simple_proxy" target="_blank">LiteLLM Proxy Server (AI Gateway)</a> | <a href="https://docs.litellm.ai/docs/enterprise#hosted-litellm-proxy" target="_blank"> Hosted Proxy</a> | <a href="https://litellm.ai/enterprise"target="_blank">Enterprise Tier</a> | <a href="https://www.litellm.ai/ai-gateway" target="_blank">Website</a></h4>
+
+> aiOS is built on a vendored fork of the LiteLLM AI Gateway, kept as the unmodified engine layer under `litellm/` so upstream fixes keep merging. Start with [AIOS.md](./AIOS.md) for what aiOS adds, [docs/aios/roadmap.md](./docs/aios/roadmap.md) for the plan, and [LOCAL_HUB.md](./LOCAL_HUB.md) to run it. The LiteLLM engine reference follows below.
 <h4 align="center">
     <a href="https://pypi.org/project/litellm/" target="_blank">
         <img src="https://img.shields.io/pypi/v/litellm.svg" alt="PyPI Version">

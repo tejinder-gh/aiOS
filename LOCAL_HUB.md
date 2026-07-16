@@ -1,6 +1,6 @@
-# LiteLLM Local Hub
+# aiOS Local Hub
 
-Personal operations guide for running this LiteLLM checkout as a single local gateway for every LLM interaction (cloud providers + local open-source models via Ollama). This file is the source of truth; keep it updated when the setup changes.
+Personal operations guide for running aiOS as a single local gateway for every LLM interaction (cloud providers plus local open-source models via Ollama). This file is the source of truth; keep it updated when the setup changes. For what aiOS is and where it is going, see [AIOS.md](./AIOS.md).
 
 ## TL;DR
 
